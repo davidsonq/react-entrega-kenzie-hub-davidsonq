@@ -54,7 +54,6 @@ export const Register = () => {
     api
       .post("/users", data)
       .then((res) => {
-        console.log(res);
         const Toast = MySwal.mixin({
           toast: true,
           position: "top-end",
@@ -77,7 +76,6 @@ export const Register = () => {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
         const Toast = MySwal.mixin({
           toast: true,
           position: "top-end",
