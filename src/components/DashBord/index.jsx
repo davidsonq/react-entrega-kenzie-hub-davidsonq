@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../servers/Api";
 import Lottie from "react-lottie";
 import * as animationData from "../../lotties/loading.json";
+import { ContainerLoading, Section, SectionConstructor } from "./style";
 export const DashBord = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
@@ -41,25 +42,27 @@ export const DashBord = () => {
   return (
     <>
       {isLoading ? (
-        <>
+        <ContainerLoading>
           <h1>Aguarde...</h1>
-          <Lottie options={defaultOptions} height={400} width={400} />
-        </>
+          <Lottie options={defaultOptions} height={300} width={300} />
+        </ContainerLoading>
       ) : (
         <>
           <Header />
           <main>
-            <section>
-              <h2>{`Olá,${useProfile.name}`}</h2>
-              <p>{useProfile.course_module}</p>
-            </section>
-            <section>
+            <Section>
+              <div>
+                <h2>{`Olá,${useProfile.name}`}</h2>
+                <p>{useProfile.course_module}</p>
+              </div>
+            </Section>
+            <SectionConstructor>
               <h3>Que pena!Estamos em desenvolvimento :(</h3>
               <p>
                 Nossa aplicação está em desenvolvimento, em breve teremos
                 novidades
               </p>
-            </section>
+            </SectionConstructor>
           </main>
         </>
       )}
