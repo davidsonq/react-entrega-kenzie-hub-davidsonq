@@ -16,7 +16,9 @@ export const NoPage = () => {
       <figure>
         <Lottie options={defaultOptions} height={400} width={400} />
       </figure>
-      <Link to={"/"}>Voltar para o Login</Link>
+      <Link reloadDocument to={"/"}>
+        Voltar para o Login
+      </Link>
     </main>
   );
 };

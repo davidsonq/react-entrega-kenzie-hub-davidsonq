@@ -13,6 +13,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const [useEye, setUseEye] = useState("password");
   const MySwal = withReactContent(Swal);
+
   const formSchema = yup.object().shape({
     email: yup
       .string()
@@ -28,14 +29,21 @@ export const Login = () => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
+
   const onSubmitFunction = (data) => {
     api
       .post("/sessions", data)
       .then((res) => {
         if (!!res.data.token) {
-          localStorage.setItem("@KenzieHub:token", res.data.token);
-          localStorage.setItem("@KenzieHub:uuid", res.data.user.id);
-          navigate("dashbord");
+          localStorage.setItem(
+            "@KenzieHub:token",
+            JSON.stringify(res.data.token)
+          );
+          localStorage.setItem(
+            "@KenzieHub:uuid",
+            JSON.stringify(res.data.user.id)
+          );
+          navigate(`dashbord/${res.data.user.id}`);
         }
       })
       .catch((err) => {

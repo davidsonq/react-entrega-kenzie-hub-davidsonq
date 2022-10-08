@@ -35,5 +35,8 @@ export const GlobalStyle = createGlobalStyle`
          --color-sucess:#3FE864;
          --color-negative:#E83F5B;
     }
-
+    body{
+      background-color: var( --color-grey-4);
+      color: var(--color-grey-0);
+    }
 `;
