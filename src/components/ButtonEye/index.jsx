@@ -1,8 +1,9 @@
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { Button } from "./style";
 export const ButtonEye = ({ useEye, setUseEye }) => {
   return (
     <>
-      <button
+      <Button
         onClick={() => {
           if (useEye === "password") {
             return setUseEye("text");
@@ -12,7 +13,7 @@ export const ButtonEye = ({ useEye, setUseEye }) => {
         type="button"
       >
         {useEye === "password" ? <AiFillEye /> : <AiFillEyeInvisible />}
-      </button>
+      </Button>
     </>
   );
 };
