@@ -1,6 +1,8 @@
 import styled from "styled-components";
 export const HeaderS = styled.header`
   height: 73px;
+  position: sticky;
+  top: 0;
   width: 100%;
   border-bottom: 1px solid var(--color-grey-3);
   div {
