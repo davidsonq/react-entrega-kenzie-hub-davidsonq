@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useState } from "react";
 import { ButtonEye } from "../ButtonEye";
+import { ButtonS, ContainerRegister, Section } from "./style";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -68,41 +69,44 @@ export const Login = () => {
         });
       });
   };
+
   return (
-    <section>
+    <Section>
       <figure>
         <img src={Logo} alt="Logo" />
       </figure>
       <form onSubmit={handleSubmit(onSubmitFunction)}>
         <h2>Login</h2>
-
-        <input
-          autoComplete="usename"
-          type="email"
-          id="email"
-          placeholder="Digite aqui seu email"
-          {...register("email")}
-        />
-        <label htmlFor="email">Email</label>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            autoComplete="usename"
+            type="email"
+            id="email"
+            placeholder="Digite aqui seu email"
+            {...register("email")}
+          />
+        </div>
         <span>{errors.email?.message}</span>
-
-        <input
-          autoComplete="current-password"
-          type={useEye}
-          id="senha"
-          placeholder="Digite sua senha"
-          {...register("password")}
-        />
-        <label htmlFor="senha">Senha</label>
+        <div>
+          <label htmlFor="senha">Senha</label>
+          <input
+            autoComplete="current-password"
+            type={useEye}
+            id="senha"
+            placeholder="Digite sua senha"
+            {...register("password")}
+          />
+          <ButtonEye useEye={useEye} setUseEye={setUseEye} />
+        </div>
         <span>{errors.password?.message}</span>
 
-        <ButtonEye useEye={useEye} setUseEye={setUseEye} />
-        <button type="submit">Entrar</button>
+        <ButtonS type="submit">Entrar</ButtonS>
+        <ContainerRegister>
+          <p>Ainda não possui uma conta?</p>
+          <Link to={"cadastro"}>Cadastre-se</Link>
+        </ContainerRegister>
       </form>
-      <div>
-        <p>Ainda não possui uma conta?</p>
-        <Link to={"cadastro"}>Cadastre-se</Link>
-      </div>
-    </section>
+    </Section>
   );
 };
