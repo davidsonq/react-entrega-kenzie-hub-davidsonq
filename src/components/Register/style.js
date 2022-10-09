@@ -63,6 +63,14 @@ export const Main = styled.main`
         font-size: 0.611rem;
         font-weight: 400;
       }
+      .red__input {
+        &:focus {
+          border: 1.22px solid var(--color-primary);
+          &::placeholder {
+            color: var(--color-primary);
+          }
+        }
+      }
       input {
         margin-top: 17px;
         outline: none;
@@ -82,7 +90,7 @@ export const Main = styled.main`
         }
 
         &:focus {
-          border: 1px solid var(--color-grey-0);
+          border: 1.22px solid var(--color-grey-0);
           &::placeholder {
             color: var(--color-grey-0);
           }
@@ -155,6 +163,7 @@ export const Main = styled.main`
         label {
           font-size: 0.75rem;
         }
+
         input {
           height: 48px;
           &::placeholder {
@@ -194,7 +203,7 @@ export const ButtonRegister = styled.button`
       transition: 0.5s;
       &:hover {
         background-color: ${(props) => (props.isValid ? "#59323F" : "#FF427F")};
-        border: 1px solid ${(props) => (props.isValid ? "#59323F" : "#FF427F")};
+        border: 1px solid ${(props) => (props.isValid ? "#59323F" : "#FF577F")};
         transition: 0.5s;
       }
     }

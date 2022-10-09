@@ -1,5 +1,5 @@
 import styled from "styled-components";
-export const Section = styled.section`
+export const Main = styled.main`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -33,6 +33,14 @@ export const Section = styled.section`
         font-size: 0.611rem;
         font-weight: 400;
       }
+      .red__input {
+        &:focus {
+          border: 1.22px solid var(--color-primary);
+          &::placeholder {
+            color: var(--color-primary);
+          }
+        }
+      }
       input {
         margin-top: 17px;
         outline: none;
@@ -52,7 +60,7 @@ export const Section = styled.section`
         }
 
         &:focus {
-          border: 1px solid var(--color-grey-0);
+          border: 1.22px solid var(--color-grey-0);
           &::placeholder {
             color: var(--color-grey-0);
           }

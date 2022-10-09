@@ -11,6 +11,9 @@ import { ButtonEye } from "../ButtonEye";
 import { ButtonRegister, Main } from "./style";
 
 export const Register = () => {
+  const [useAnimationRegister, setUseAnimationRegister] = useState(
+    "animate__animated animate__backInDown"
+  );
   const navigate = useNavigate();
   const [useEye, setUseEye] = useState("password");
   const MySwal = withReactContent(Swal);
@@ -89,7 +92,11 @@ export const Register = () => {
           title: `Conta cadastrada com sucesso!`,
         });
 
-        navigate("/");
+        setUseAnimationRegister("animate__animated  animate__fadeOut");
+        setTimeout(() => {
+          navigate("/");
+          setUseAnimationRegister("animate__animated animate__backInDown");
+        }, 500);
       })
       .catch((err) => {
         const Toast = MySwal.mixin({
@@ -114,12 +121,22 @@ export const Register = () => {
       });
   };
   return (
-    <Main>
+    <Main className={useAnimationRegister}>
       <header>
-        <figure>
+        <figure className={!isValid ? "" : "animate__animated  animate__tada"}>
           <img src={Logo} alt="Logo" />
         </figure>
-        <Link to={"/"}>Voltar</Link>
+        <Link
+          onClick={() => {
+            setUseAnimationRegister("animate__animated  animate__backOutDown");
+            setTimeout(() => {
+              navigate("/");
+              setUseAnimationRegister("animate__animated animate__backInDown");
+            }, 900);
+          }}
+        >
+          Voltar
+        </Link>
       </header>
       <form onSubmit={handleSubmit(onSubmitFunction)}>
         <h2>Crie sua conta</h2>
@@ -127,6 +144,7 @@ export const Register = () => {
         <div>
           <label htmlFor="name">Nome</label>
           <input
+            className={errors.name?.message ? "red__input" : ""}
             type="text"
             id="name"
             placeholder="Digite aqui seu nome"
@@ -137,6 +155,7 @@ export const Register = () => {
         <div>
           <label htmlFor="email">Email</label>
           <input
+            className={errors.email?.message ? "red__input" : ""}
             type="email"
             id="email"
             placeholder="Digite aqui seu email"
@@ -148,6 +167,7 @@ export const Register = () => {
         <div>
           <label htmlFor="senha">Senha</label>
           <input
+            className={errors.password?.message ? "red__input" : ""}
             type={useEye}
             id="senha"
             placeholder="Digite sua senha"
@@ -160,6 +180,7 @@ export const Register = () => {
         <div>
           <label htmlFor="confirmPassword">Confirmar Senha</label>
           <input
+            className={errors.confirmPassword?.message ? "red__input" : ""}
             type={useEye}
             id="confirmPassword"
             placeholder="Digite a confirmação de senha"
@@ -172,6 +193,7 @@ export const Register = () => {
         <div>
           <label htmlFor="bio">Bio</label>
           <input
+            className={errors.bio?.message ? "red__input" : ""}
             id="bio"
             type="text"
             placeholder="Fale sobre você"
@@ -183,6 +205,7 @@ export const Register = () => {
         <div>
           <label htmlFor="contact">Contato</label>
           <input
+            className={errors.contact?.message ? "red__input" : ""}
             type="text"
             id="contact"
             placeholder="Opção de contato"
@@ -209,7 +232,11 @@ export const Register = () => {
           </select>
         </div>
 
-        <ButtonRegister isValid={!isValid} disabled={!isValid} type="submit">
+        <ButtonRegister
+          className={!isValid ? "" : "animate__animated  animate__pulse"}
+          isValid={!isValid}
+          type="submit"
+        >
           Cadastrar
         </ButtonRegister>
       </form>

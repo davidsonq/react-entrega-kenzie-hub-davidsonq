@@ -24,6 +24,11 @@ export const HeaderS = styled.header`
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: 0.5s;
+      &:hover {
+        transition: 0.5s;
+        background-color: var(--color-grey-2);
+      }
     }
     img {
       width: 105px;

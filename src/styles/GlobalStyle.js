@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
     scrollbar-color: #D7D4D8 #FFFFFF;
   }
   *::-webkit-scrollbar {
-    width: 12px;
+    width: 6px;
   }
   *::-webkit-scrollbar-track {
     background: var( --color-gray-0);

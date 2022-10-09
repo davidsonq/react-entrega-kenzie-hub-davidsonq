@@ -8,9 +8,14 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useState } from "react";
 import { ButtonEye } from "../ButtonEye";
-import { ButtonS, ContainerRegister, Section } from "./style";
+
+import { ButtonS, ContainerRegister, Main } from "./style";
 
 export const Login = () => {
+  const [useAnimationLogo, setUseAnimationLogo] = useState("");
+  const [useAnimationLogin, setUseAnimationLogin] = useState(
+    "animate__animated animate__backInDown"
+  );
   const navigate = useNavigate();
   const [useEye, setUseEye] = useState("password");
   const MySwal = withReactContent(Swal);
@@ -71,8 +76,8 @@ export const Login = () => {
   };
 
   return (
-    <Section>
-      <figure>
+    <Main className={useAnimationLogin}>
+      <figure className={useAnimationLogo}>
         <img src={Logo} alt="Logo" />
       </figure>
       <form onSubmit={handleSubmit(onSubmitFunction)}>
@@ -80,6 +85,7 @@ export const Login = () => {
         <div>
           <label htmlFor="email">Email</label>
           <input
+            className={errors.email?.message ? "red__input" : ""}
             autoComplete="usename"
             type="email"
             id="email"
@@ -92,6 +98,7 @@ export const Login = () => {
           <label htmlFor="senha">Senha</label>
           <input
             autoComplete="current-password"
+            className={errors.password?.message ? "red__input" : ""}
             type={useEye}
             id="senha"
             placeholder="Digite sua senha"
@@ -101,12 +108,32 @@ export const Login = () => {
         </div>
         <span>{errors.password?.message}</span>
 
-        <ButtonS type="submit">Entrar</ButtonS>
+        <ButtonS
+          onClick={() => {
+            setUseAnimationLogo("");
+            setTimeout(() => {
+              setUseAnimationLogo("animate__animated animate__rubberBand");
+            }, 100);
+          }}
+          type="submit"
+        >
+          Entrar
+        </ButtonS>
         <ContainerRegister>
           <p>Ainda não possui uma conta?</p>
-          <Link to={"cadastro"}>Cadastre-se</Link>
+          <Link
+            onClick={() => {
+              setUseAnimationLogin("animate__animated  animate__backOutDown");
+              setTimeout(() => {
+                navigate("cadastro");
+                setUseAnimationLogin("animate__animated animate__backInDown");
+              }, 900);
+            }}
+          >
+            Cadastre-se
+          </Link>
         </ContainerRegister>
       </form>
-    </Section>
+    </Main>
   );
 };

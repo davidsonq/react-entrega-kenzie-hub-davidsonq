@@ -6,10 +6,19 @@ import Lottie from "react-lottie";
 import * as animationData from "../../lotties/loading.json";
 import { ContainerLoading, Section, SectionConstructor } from "./style";
 export const DashBord = () => {
+  const [useAnimationDashbord, setUseAnimationDashbord] = useState(
+    "animate__animated animate__backInDown"
+  );
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [useProfile, setUseProfile] = useState({});
-
+  const handleAnimation = () => {
+    setUseAnimationDashbord("animate__animated  animate__backOutUp");
+    setTimeout(() => {
+      navigate("/");
+      setUseAnimationDashbord("animate__animated animate__backInDown");
+    }, 900);
+  };
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -47,8 +56,8 @@ export const DashBord = () => {
           <Lottie options={defaultOptions} height={300} width={300} />
         </ContainerLoading>
       ) : (
-        <>
-          <Header />
+        <div className={useAnimationDashbord}>
+          <Header handleAnimation={handleAnimation} />
           <main>
             <Section>
               <div>
@@ -64,7 +73,7 @@ export const DashBord = () => {
               </p>
             </SectionConstructor>
           </main>
-        </>
+        </div>
       )}
     </>
   );
