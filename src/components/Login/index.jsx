@@ -9,10 +9,17 @@ import withReactContent from "sweetalert2-react-content";
 import { useState } from "react";
 import { ButtonEye } from "../ButtonEye";
 
+import { ButtonS, ContainerRegister, Main } from "./style";
+
 export const Login = () => {
+  const [useAnimationLogo, setUseAnimationLogo] = useState("");
+  const [useAnimationLogin, setUseAnimationLogin] = useState(
+    "animate__animated animate__backInDown"
+  );
   const navigate = useNavigate();
   const [useEye, setUseEye] = useState("password");
   const MySwal = withReactContent(Swal);
+
   const formSchema = yup.object().shape({
     email: yup
       .string()
@@ -28,14 +35,21 @@ export const Login = () => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
+
   const onSubmitFunction = (data) => {
     api
       .post("/sessions", data)
       .then((res) => {
         if (!!res.data.token) {
-          localStorage.setItem("@KenzieHub:token", res.data.token);
-          localStorage.setItem("@KenzieHub:uuid", res.data.user.id);
-          navigate("dashbord");
+          localStorage.setItem(
+            "@KenzieHub:token",
+            JSON.stringify(res.data.token)
+          );
+          localStorage.setItem(
+            "@KenzieHub:uuid",
+            JSON.stringify(res.data.user.id)
+          );
+          navigate(`dashbord/${res.data.user.id}`);
         }
       })
       .catch((err) => {
@@ -60,41 +74,66 @@ export const Login = () => {
         });
       });
   };
+
   return (
-    <section>
-      <figure>
+    <Main className={useAnimationLogin}>
+      <figure className={useAnimationLogo}>
         <img src={Logo} alt="Logo" />
       </figure>
       <form onSubmit={handleSubmit(onSubmitFunction)}>
         <h2>Login</h2>
-
-        <input
-          autoComplete="usename"
-          type="email"
-          id="email"
-          placeholder="Digite aqui seu email"
-          {...register("email")}
-        />
-        <label htmlFor="email">Email</label>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            className={errors.email?.message ? "red__input" : ""}
+            autoComplete="usename"
+            type="email"
+            id="email"
+            placeholder="Digite aqui seu email"
+            {...register("email")}
+          />
+        </div>
         <span>{errors.email?.message}</span>
-
-        <input
-          autoComplete="current-password"
-          type={useEye}
-          id="senha"
-          placeholder="Digite sua senha"
-          {...register("password")}
-        />
-        <label htmlFor="senha">Senha</label>
+        <div>
+          <label htmlFor="senha">Senha</label>
+          <input
+            autoComplete="current-password"
+            className={errors.password?.message ? "red__input" : ""}
+            type={useEye}
+            id="senha"
+            placeholder="Digite sua senha"
+            {...register("password")}
+          />
+          <ButtonEye useEye={useEye} setUseEye={setUseEye} />
+        </div>
         <span>{errors.password?.message}</span>
 
-        <ButtonEye useEye={useEye} setUseEye={setUseEye} />
-        <button type="submit">Entrar</button>
+        <ButtonS
+          onClick={() => {
+            setUseAnimationLogo("");
+            setTimeout(() => {
+              setUseAnimationLogo("animate__animated animate__rubberBand");
+            }, 100);
+          }}
+          type="submit"
+        >
+          Entrar
+        </ButtonS>
+        <ContainerRegister>
+          <p>Ainda não possui uma conta?</p>
+          <Link
+            onClick={() => {
+              setUseAnimationLogin("animate__animated  animate__backOutDown");
+              setTimeout(() => {
+                navigate("cadastro");
+                setUseAnimationLogin("animate__animated animate__backInDown");
+              }, 900);
+            }}
+          >
+            Cadastre-se
+          </Link>
+        </ContainerRegister>
       </form>
-      <div>
-        <p>Ainda não possui uma conta?</p>
-        <Link to={"cadastro"}>Cadastre-se</Link>
-      </div>
-    </section>
+    </Main>
   );
 };
