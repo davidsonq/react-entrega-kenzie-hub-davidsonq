@@ -1,15 +1,18 @@
 import { Routes, Route } from "react-router-dom";
-import { DashBord } from "../components/DashBord";
-import { Login } from "../components/Login";
 import { NoPage } from "../components/NoPage";
-import { Register } from "../components/Register";
+import { DashBord } from "../pages/DashBord";
+import { Register } from "../pages/Register";
+import { UserContextProvider } from "../contexts/UserContext";
+import { Login } from "../pages/Login";
 export const RoutesMain = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="dashbord/:id" element={<DashBord />} />
-      <Route path="cadastro" element={<Register />} />
-      <Route path="*" element={<NoPage />} />
-    </Routes>
+    <UserContextProvider>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="dashbord" element={<DashBord />} />
+        <Route path="cadastro" element={<Register />} />
+        <Route path="*" element={<NoPage />} />
+      </Routes>
+    </UserContextProvider>
   );
 };

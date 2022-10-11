@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Header } from "../Header";
+import { Header } from "../../components/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../servers/Api";
 import Lottie from "react-lottie";
@@ -27,26 +27,19 @@ export const DashBord = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  const { id } = useParams();
-  const token = JSON.parse(localStorage.getItem("@KenzieHub:token"));
+
   useEffect(() => {
-    api
-      .get("/profile", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (id !== res.data.id) {
-          navigate("/no-page");
-        }
-        setUseProfile(res.data);
+    const requestProfile = async () => {
+      try {
+        const response = await api.get("/profile");
+
+        setUseProfile(response.data);
         setIsLoading(false);
-      })
-      .catch((err) => {
-        navigate("/no-page");
-      });
+      } catch (error) {
+        navigate("no-page");
+      }
+    };
+    requestProfile();
   }, []);
   return (
     <>

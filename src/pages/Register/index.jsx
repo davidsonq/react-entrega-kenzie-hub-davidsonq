@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useState } from "react";
-import { ButtonEye } from "../ButtonEye";
+import { ButtonEye } from "../../components/ButtonEye";
 import { ButtonRegister, Main } from "./style";
 
 export const Register = () => {
