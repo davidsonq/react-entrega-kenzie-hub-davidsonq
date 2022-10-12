@@ -70,11 +70,9 @@ export const UserContextProvider = ({ children }) => {
     try {
       const response = await api.post("/users", data);
 
-      const { name } = response.data;
-
       ToastSuccess.fire({
         icon: "success",
-        title: `Parabéns ${name} conta criada com sucesso!`,
+        title: `Conta cadastrada com sucesso!`,
       });
       navigate("/");
     } catch (error) {
@@ -86,6 +84,28 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  const onSubmitFunctionAddTech = async (data) => {
+    try {
+      const response = await api.post("/users/techs", data, {
+        headers: {
+          "Context-Type": "Application/json",
+          Authorization: `Bearer ${JSON.parse(isToken)}`,
+        },
+      });
+      navigate("/dashbord");
+      ToastSuccess.fire({
+        icon: "success",
+        title: `Tecnologia cadastrada com sucesso!`,
+      });
+    } catch (error) {
+      ToastError.fire({
+        icon: "error",
+        iconColor: "#EC8697",
+        title: `Tecnologia já cadastrada!`,
+      });
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -93,6 +113,7 @@ export const UserContextProvider = ({ children }) => {
         setUseEye,
         onSubmitFunctionLogin,
         onSubmitFunctionRegister,
+        onSubmitFunctionAddTech,
         user,
         setUser,
         isToken,

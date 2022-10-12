@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import { Header } from "../../components/Header";
+import { AddTechnology, ListTechnology } from "../../components/AddTechnology";
 import { UserContext } from "../../contexts/UserContext";
 import { Section, SectionConstructor } from "./style";
+import { Outlet } from "react-router-dom";
 export const DashBord = () => {
   const { user } = useContext(UserContext);
 
@@ -16,11 +18,9 @@ export const DashBord = () => {
           </div>
         </Section>
         <SectionConstructor>
-          <h3>Que pena!Estamos em desenvolvimento :(</h3>
-          <p>
-            Nossa aplicação está em desenvolvimento, em breve teremos novidades
-          </p>
+          <AddTechnology />
         </SectionConstructor>
+        <Outlet />
       </main>
     </div>
   );
