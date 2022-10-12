@@ -5,12 +5,12 @@ import { useContext } from "react";
 import { ButtonEye } from "../../components/ButtonEye";
 import { ButtonS, Main } from "./style";
 import { UserContext } from "../../contexts/UserContext";
-import { api } from "../../servers/Api";
 import { formSchema } from "../../validation/login";
+import { FiAlertCircle } from "react-icons/fi";
 import { NavigateRegister } from "../../components/NavigateRegister";
 
 export const Login = () => {
-  const { useEye, navigate, MySwal } = useContext(UserContext);
+  const { useEye, onSubmitFunctionLogin } = useContext(UserContext);
 
   const {
     register,
@@ -20,47 +20,12 @@ export const Login = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmitFunction = async (data) => {
-    try {
-      const response = await api.post("/sessions", data);
-
-      const { token, user } = response.data;
-      localStorage.setItem("@KenzieHub:token", JSON.stringify(token));
-
-      localStorage.setItem("@KenzieHub:uuid", JSON.stringify(user.id));
-
-      api.defaults.headers.authorization = `Bearer ${token}`;
-
-      navigate(`dashbord`);
-    } catch (error) {
-      const Toast = MySwal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 1500,
-        background: "#B53147",
-        color: "#FFFFFF",
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", MySwal.stopTimer);
-          toast.addEventListener("mouseleave", MySwal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: "error",
-        iconColor: "#EC8697",
-        title: `Conta ou senha inválida!`,
-      });
-    }
-  };
-
   return (
     <Main className="animate__animated animate__zoomIn">
       <figure>
         <img src={Logo} alt="Logo" />
       </figure>
-      <form onSubmit={handleSubmit(onSubmitFunction)}>
+      <form onSubmit={handleSubmit(onSubmitFunctionLogin)}>
         <h2>Login</h2>
         <div>
           <label htmlFor="email">Email</label>
@@ -73,7 +38,14 @@ export const Login = () => {
             {...register("email")}
           />
         </div>
-        <span>{errors.email?.message}</span>
+        <span>
+          {errors.email?.message && (
+            <strong>
+              <FiAlertCircle />
+            </strong>
+          )}
+          {errors.email?.message}
+        </span>
         <div>
           <label htmlFor="senha">Senha</label>
           <input
@@ -86,7 +58,15 @@ export const Login = () => {
           />
           <ButtonEye />
         </div>
-        <span>{errors.password?.message}</span>
+
+        <span>
+          {errors.password?.message && (
+            <strong>
+              <FiAlertCircle />
+            </strong>
+          )}
+          {errors.password?.message}
+        </span>
 
         <ButtonS type="submit">Entrar</ButtonS>
         <NavigateRegister />

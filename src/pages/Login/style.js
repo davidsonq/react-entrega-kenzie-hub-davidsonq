@@ -35,7 +35,7 @@ export const Main = styled.main`
       }
       .red__input {
         &:focus {
-          border: 1.22px solid var(--color-primary);
+          border: 1.22px solid var(--color-primary-focus);
           &::placeholder {
             color: var(--color-primary);
           }
@@ -72,13 +72,19 @@ export const Main = styled.main`
       }
     }
     span {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       height: 20px;
       width: 100%;
-      display: flex;
-      align-items: center;
+      gap: 10px;
       color: var(--color-primary);
       font-size: 0.75rem;
       font-weight: 500;
+      strong {
+        display: flex;
+        font-size: 1.25rem;
+      }
     }
   }
   @media (min-width: 435px) {
@@ -109,6 +115,9 @@ export const Main = styled.main`
         }
         span {
           font-size: 1rem;
+          strong {
+            font-size: 1.5rem;
+          }
         }
       }
     }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../servers/Api";
 import Lottie from "react-lottie";
 import * as animationData from "../../lotties/loading.json";
