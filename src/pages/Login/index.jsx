@@ -8,9 +8,10 @@ import { UserContext } from "../../contexts/UserContext";
 import { formSchema } from "../../validation/login";
 import { FiAlertCircle } from "react-icons/fi";
 import { NavigateRegister } from "../../components/NavigateRegister";
+import { Navigate } from "react-router-dom";
 
 export const Login = () => {
-  const { useEye, onSubmitFunctionLogin } = useContext(UserContext);
+  const { useEye, onSubmitFunctionLogin, isToken } = useContext(UserContext);
 
   const {
     register,
@@ -19,7 +20,9 @@ export const Login = () => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
-
+  if (!!isToken) {
+    return <Navigate to={"dashbord"} />;
+  }
   return (
     <Main className="animate__animated animate__zoomIn">
       <figure>

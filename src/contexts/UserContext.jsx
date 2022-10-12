@@ -9,6 +9,8 @@ export const UserContext = createContext({});
 export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
+  const isToken = localStorage.getItem("@KenzieHub:token");
+
   const [useEye, setUseEye] = useState("password");
 
   const navigate = useNavigate();
@@ -53,7 +55,7 @@ export const UserContextProvider = ({ children }) => {
       localStorage.setItem("@KenzieHub:uuid", JSON.stringify(userResponse.id));
 
       api.defaults.headers.authorization = `Bearer ${token}`;
-      setUser(userResponse);
+
       navigate(`dashbord`, { replace: true });
     } catch (error) {
       ToastError.fire({
@@ -83,6 +85,7 @@ export const UserContextProvider = ({ children }) => {
       });
     }
   };
+
   return (
     <UserContext.Provider
       value={{
@@ -91,6 +94,8 @@ export const UserContextProvider = ({ children }) => {
         onSubmitFunctionLogin,
         onSubmitFunctionRegister,
         user,
+        setUser,
+        isToken,
       }}
     >
       {children}
