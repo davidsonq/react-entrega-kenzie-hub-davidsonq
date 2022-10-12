@@ -43,6 +43,7 @@ export const Main = styled.main`
     flex-direction: column;
     align-items: center;
     border-radius: 3.2px;
+    gap: 6px;
     padding: 34px 18px 19px;
 
     h2 {
@@ -65,7 +66,7 @@ export const Main = styled.main`
       }
       .red__input {
         &:focus {
-          border: 1.22px solid var(--color-primary);
+          border: 1.22px solid var(--color-primary-focus);
           &::placeholder {
             color: var(--color-primary);
           }
@@ -123,14 +124,20 @@ export const Main = styled.main`
     }
   }
   span {
-    height: 30px;
-    width: 100%;
-
     display: flex;
+    flex-direction: row;
     align-items: center;
+    height: 25px;
+    width: 100%;
+    gap: 10px;
     color: var(--color-primary);
-    font-size: 0.75rem;
+    font-size: 1.25rem;
     font-weight: 500;
+
+    strong {
+      display: flex;
+      font-size: 0.75rem;
+    }
   }
   @media (min-width: 435px) {
     header {
@@ -179,7 +186,10 @@ export const Main = styled.main`
           margin-left: 300px;
         }
         span {
-          font-size: 1rem;
+          font-size: 1.5rem;
+          strong {
+            font-size: 1rem;
+          }
         }
       }
     }

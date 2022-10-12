@@ -15,6 +15,34 @@ export const UserContextProvider = ({ children }) => {
 
   const MySwal = withReactContent(Swal);
 
+  const ToastSuccess = MySwal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+    background: "#168821",
+    color: "#FFFFFF",
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", MySwal.stopTimer);
+      toast.addEventListener("mouseleave", MySwal.resumeTimer);
+    },
+  });
+
+  const ToastError = MySwal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+    background: "#B53147",
+    color: "#FFFFFF",
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", MySwal.stopTimer);
+      toast.addEventListener("mouseleave", MySwal.resumeTimer);
+    },
+  });
+
   const onSubmitFunctionLogin = async (data) => {
     try {
       const response = await api.post("/sessions", data);
@@ -28,21 +56,7 @@ export const UserContextProvider = ({ children }) => {
       setUser(userResponse);
       navigate(`dashbord`, { replace: true });
     } catch (error) {
-      const Toast = MySwal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 1500,
-        background: "#B53147",
-        color: "#FFFFFF",
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", MySwal.stopTimer);
-          toast.addEventListener("mouseleave", MySwal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
+      ToastError.fire({
         icon: "error",
         iconColor: "#EC8697",
         title: `Conta ou senha inválida!`,
@@ -50,12 +64,32 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  const onSubmitFunctionRegister = async (data) => {
+    try {
+      const response = await api.post("/users", data);
+
+      const { name } = response.data;
+
+      ToastSuccess.fire({
+        icon: "success",
+        title: `Parabéns ${name} conta criada com sucesso!`,
+      });
+      navigate("/");
+    } catch (error) {
+      ToastError.fire({
+        icon: "error",
+        iconColor: "#EC8697",
+        title: `Email está em uso, Por favor coloque outro email!`,
+      });
+    }
+  };
   return (
     <UserContext.Provider
       value={{
         useEye,
         setUseEye,
         onSubmitFunctionLogin,
+        onSubmitFunctionRegister,
         user,
       }}
     >
