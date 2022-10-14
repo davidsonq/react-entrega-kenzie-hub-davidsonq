@@ -8,9 +8,11 @@ import { ButtonRegister, Main } from "./style";
 import { UserContext } from "../../contexts/UserContext";
 import { formSchema } from "../../validation/register";
 import { FiAlertCircle } from "react-icons/fi";
+import { api } from "../../servers/Api";
 
 export const Register = () => {
-  const { useEye, onSubmitFunctionRegister } = useContext(UserContext);
+  const { useEye, ToastSuccess, navigate, ToastError } =
+    useContext(UserContext);
 
   const {
     register,
@@ -20,6 +22,25 @@ export const Register = () => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
+
+  const onSubmitFunctionRegister = async (data) => {
+    try {
+      await api.post("/users", data);
+
+      ToastSuccess.fire({
+        icon: "success",
+        title: `Conta cadastrada com sucesso!`,
+      });
+      navigate("/", { replace: true });
+    } catch (error) {
+      ToastError.fire({
+        icon: "error",
+        iconColor: "#EC8697",
+        title: `Email está em uso, Por favor coloque outro email!`,
+      });
+    }
+  };
+
   const name = watch("name");
   const email = watch("email");
   const password = watch("password");

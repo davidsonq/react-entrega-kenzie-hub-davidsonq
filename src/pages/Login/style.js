@@ -25,52 +25,7 @@ export const Main = styled.main`
       font-weight: 700;
       margin-bottom: 13px;
     }
-    div {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      label {
-        font-size: 0.611rem;
-        font-weight: 400;
-      }
-      .red__input {
-        &:focus {
-          border: 1.22px solid var(--color-primary-focus);
-          &::placeholder {
-            color: var(--color-primary);
-          }
-        }
-      }
-      input {
-        margin-top: 17px;
-        outline: none;
-        width: 100%;
-        height: 38.5px;
-        border-radius: 3px;
-        padding: 0 13px;
-        border: 1px solid var(--color-grey-2);
-        color: var(--color-grey-0);
-        background-color: var(--color-grey-2);
-        font-size: 0.813rem;
-        font-weight: 400;
-        &::placeholder {
-          color: var(--color-grey-1);
-          font-size: 0.813rem;
-          font-weight: 400;
-        }
 
-        &:focus {
-          border: 1.22px solid var(--color-grey-0);
-          &::placeholder {
-            color: var(--color-grey-0);
-          }
-        }
-      }
-      button {
-        margin-top: -34px;
-        margin-left: 68vw;
-      }
-    }
     span {
       display: flex;
       flex-direction: row;
@@ -99,53 +54,12 @@ export const Main = styled.main`
         font-size: 1.125rem;
         margin-top: 20px;
       }
-      div {
-        label {
-          font-size: 0.75rem;
-        }
-        input {
-          height: 48px;
-          &::placeholder {
-            font-size: 1rem;
-          }
-        }
-        button {
-          margin-top: -44px;
-          margin-left: 310px;
-        }
-        span {
-          font-size: 1rem;
-          strong {
-            font-size: 1.5rem;
-          }
+      span {
+        font-size: 0.8rem;
+        strong {
+          font-size: 1.2rem;
         }
       }
-    }
-  }
-`;
-export const ButtonS = styled.button`
-  cursor: pointer;
-  width: 100%;
-  height: 38.5px;
-  border: 1px solid var(--color-primary);
-  background-color: var(--color-primary);
-  color: #ffffff;
-  font-size: 0.813rem;
-  font-weight: 500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  margin-bottom: 13px;
-  @media (min-width: 435px) {
-    & {
-      height: 48px;
-      font-size: 1rem;
-      transition: 0.5s;
-    }
-    &:hover {
-      transition: 0.5s;
-      background-color: var(--color-primary-focus);
     }
   }
 `;

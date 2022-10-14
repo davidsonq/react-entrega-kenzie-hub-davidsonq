@@ -1,79 +1,45 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import Logo from "../../assets/Logo.svg";
-import { useForm } from "react-hook-form";
 import { useContext } from "react";
-import { ButtonEye } from "../../components/ButtonEye";
-import { ButtonS, Main } from "./style";
+import { Main } from "./style";
 import { UserContext } from "../../contexts/UserContext";
-import { formSchema } from "../../validation/login";
-import { FiAlertCircle } from "react-icons/fi";
-import { NavigateRegister } from "../../components/NavigateRegister";
 import { Navigate } from "react-router-dom";
+import { api } from "../../servers/Api";
+import { FormLogin } from "../../components/FormLogin";
 
 export const Login = () => {
-  const { useEye, onSubmitFunctionLogin, isToken } = useContext(UserContext);
+  const { ToastError, isToken, setRend, navigate } = useContext(UserContext);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(formSchema),
-  });
+  const onSubmitFunctionLogin = async (data) => {
+    try {
+      const response = await api.post("/sessions", data);
+
+      const { token, user: userResponse } = response.data;
+      localStorage.setItem("@KenzieHub:token", JSON.stringify(token));
+
+      localStorage.setItem("@KenzieHub:uuid", JSON.stringify(userResponse.id));
+
+      api.defaults.headers.authorization = `Bearer ${token}`;
+      setRend(false);
+      navigate(`dashbord`, { replace: true });
+    } catch (error) {
+      ToastError.fire({
+        icon: "error",
+        iconColor: "#EC8697",
+        title: `Conta ou senha inválida!`,
+      });
+    }
+  };
+
   if (!!isToken) {
     return <Navigate to={"dashbord"} />;
   }
+
   return (
     <Main className="animate__animated animate__zoomIn">
       <figure>
         <img src={Logo} alt="Logo" />
       </figure>
-      <form onSubmit={handleSubmit(onSubmitFunctionLogin)}>
-        <h2>Login</h2>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            className={errors.email?.message ? "red__input" : ""}
-            autoComplete="usename"
-            type="email"
-            id="email"
-            placeholder="Digite aqui seu email"
-            {...register("email")}
-          />
-        </div>
-        <span>
-          {errors.email?.message && (
-            <strong>
-              <FiAlertCircle />
-            </strong>
-          )}
-          {errors.email?.message}
-        </span>
-        <div>
-          <label htmlFor="senha">Senha</label>
-          <input
-            autoComplete="current-password"
-            className={errors.password?.message ? "red__input" : ""}
-            type={useEye}
-            id="senha"
-            placeholder="Digite sua senha"
-            {...register("password")}
-          />
-          <ButtonEye />
-        </div>
-
-        <span>
-          {errors.password?.message && (
-            <strong>
-              <FiAlertCircle />
-            </strong>
-          )}
-          {errors.password?.message}
-        </span>
-
-        <ButtonS type="submit">Entrar</ButtonS>
-        <NavigateRegister />
-      </form>
+      <FormLogin onSubmitFunctionLogin={onSubmitFunctionLogin} />
     </Main>
   );
 };

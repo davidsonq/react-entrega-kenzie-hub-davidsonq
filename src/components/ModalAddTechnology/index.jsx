@@ -10,6 +10,7 @@ import { formSchema } from "../../validation/registerTechnology";
 export const ModalAddTechnology = () => {
   const { rend, isToken, setRend, navigate, ToastSuccess, ToastError } =
     useContext(UserContext);
+
   const {
     register,
     handleSubmit,
@@ -17,16 +18,21 @@ export const ModalAddTechnology = () => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
+
   const onSubmitFunctionAddTech = async (data) => {
+    const dataTrim = data.title.trim();
+
+    const dataNewFormat = { ...data, title: dataTrim };
+
     try {
-      const response = await api.post("/users/techs", data, {
+      await api.post("/users/techs", dataNewFormat, {
         headers: {
           "Context-Type": "Application/json",
           Authorization: `Bearer ${JSON.parse(isToken)}`,
         },
       });
-      setRend(false);
       navigate("/dashbord");
+      setRend(false);
       if (rend) {
         ToastSuccess.fire({
           icon: "success",
