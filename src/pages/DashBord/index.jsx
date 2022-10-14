@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { Header } from "../../components/Header";
-import { AddTechnology, ListTechnology } from "../../components/AddTechnology";
+import { AddTechnology } from "../../components/AddTechnology";
 import { UserContext } from "../../contexts/UserContext";
 import { Section, SectionConstructor } from "./style";
 import { Outlet } from "react-router-dom";
+import { ListTechnology } from "../../components/ListTechnology";
 export const DashBord = () => {
   const { user } = useContext(UserContext);
 
@@ -19,6 +20,7 @@ export const DashBord = () => {
         </Section>
         <SectionConstructor>
           <AddTechnology />
+          <ListTechnology />
         </SectionConstructor>
         <Outlet />
       </main>

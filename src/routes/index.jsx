@@ -4,7 +4,8 @@ import { Register } from "../pages/Register";
 import { UserContextProvider } from "../contexts/UserContext";
 import { Login } from "../pages/Login";
 import { ProtectRoutes } from "../components/ProtectRoutes";
-import { ModalAddTehnology } from "../components/ModalAddTechnology";
+import { ModalAddTechnology } from "../components/ModalAddTechnology";
+import { ModalEditTechnology } from "../components/ModalEditTechnology";
 
 export const RoutesMain = () => {
   return (
@@ -14,7 +15,8 @@ export const RoutesMain = () => {
         <Route path="cadastro" element={<Register />} />
         <Route element={<ProtectRoutes />}>
           <Route path="dashbord" element={<DashBord />}>
-            <Route path="register" element={<ModalAddTehnology />} />
+            <Route path="register" element={<ModalAddTechnology />} />
+            <Route path="edit/:id" element={<ModalEditTechnology />} />
           </Route>
         </Route>
         <Route path="*" element={<Login />} />

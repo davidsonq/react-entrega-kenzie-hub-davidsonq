@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form";
 import { FiAlertCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
-import { formSchema } from "../../validation/registerTehnology";
+import { api } from "../../servers/Api";
+import { formSchema } from "../../validation/registerTechnology";
 
-export const ModalAddTehnology = () => {
-  const { onSubmitFunctionAddTech } = useContext(UserContext);
+export const ModalAddTechnology = () => {
+  const { rend, isToken, setRend, navigate, ToastSuccess, ToastError } =
+    useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -15,6 +17,30 @@ export const ModalAddTehnology = () => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
+  const onSubmitFunctionAddTech = async (data) => {
+    try {
+      const response = await api.post("/users/techs", data, {
+        headers: {
+          "Context-Type": "Application/json",
+          Authorization: `Bearer ${JSON.parse(isToken)}`,
+        },
+      });
+      setRend(false);
+      navigate("/dashbord");
+      if (rend) {
+        ToastSuccess.fire({
+          icon: "success",
+          title: `Tecnologia cadastrada com sucesso!`,
+        });
+      }
+    } catch (error) {
+      ToastError.fire({
+        icon: "error",
+        iconColor: "#EC8697",
+        title: `Tecnologia já cadastrada!`,
+      });
+    }
+  };
   return (
     <aside>
       <div>

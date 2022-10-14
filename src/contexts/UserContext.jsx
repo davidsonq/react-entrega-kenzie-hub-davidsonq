@@ -8,7 +8,7 @@ export const UserContext = createContext({});
 
 export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
+  const [rend, setRend] = useState(false);
   const isToken = localStorage.getItem("@KenzieHub:token");
 
   const [useEye, setUseEye] = useState("password");
@@ -84,28 +84,6 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-  const onSubmitFunctionAddTech = async (data) => {
-    try {
-      const response = await api.post("/users/techs", data, {
-        headers: {
-          "Context-Type": "Application/json",
-          Authorization: `Bearer ${JSON.parse(isToken)}`,
-        },
-      });
-      navigate("/dashbord");
-      ToastSuccess.fire({
-        icon: "success",
-        title: `Tecnologia cadastrada com sucesso!`,
-      });
-    } catch (error) {
-      ToastError.fire({
-        icon: "error",
-        iconColor: "#EC8697",
-        title: `Tecnologia já cadastrada!`,
-      });
-    }
-  };
-
   return (
     <UserContext.Provider
       value={{
@@ -113,10 +91,14 @@ export const UserContextProvider = ({ children }) => {
         setUseEye,
         onSubmitFunctionLogin,
         onSubmitFunctionRegister,
-        onSubmitFunctionAddTech,
         user,
         setUser,
         isToken,
+        ToastSuccess,
+        ToastError,
+        navigate,
+        rend,
+        setRend,
       }}
     >
       {children}

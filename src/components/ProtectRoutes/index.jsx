@@ -7,7 +7,7 @@ import { ContainerLoading } from "./style";
 import { UserContext } from "../../contexts/UserContext";
 
 export const ProtectRoutes = () => {
-  const { user, setUser, isToken } = useContext(UserContext);
+  const { user, setUser, isToken, rend, setRend } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -29,17 +29,17 @@ export const ProtectRoutes = () => {
             Authorization: `Bearer ${JSON.parse(isToken)}`,
           },
         });
-
-        setUser(response.data);
+        setRend(true);
+        setUser({ ...response.data });
       } catch (error) {
         navigate("/");
       }
     };
     requestProfile();
-  }, []);
+  }, [rend]);
   return (
     <>
-      {user ? (
+      {rend ? (
         <Outlet />
       ) : (
         <ContainerLoading>
