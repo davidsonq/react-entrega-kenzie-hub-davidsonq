@@ -1,13 +1,12 @@
 import Logo from "../../assets/Logo.svg";
-import { useContext } from "react";
 import { Main } from "./style";
-import { UserContext } from "../../contexts/UserContext";
+import { useProvider } from "../../contexts/UserContext";
 import { Navigate } from "react-router-dom";
 import { api } from "../../servers/Api";
 import { FormLogin } from "../../components/FormLogin";
 
 export const Login = () => {
-  const { ToastError, isToken, setRend, navigate } = useContext(UserContext);
+  const { ToastError, isToken, setRend, navigate } = useProvider();
 
   const onSubmitFunctionLogin = async (data) => {
     try {

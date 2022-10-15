@@ -49,6 +49,7 @@ export const Main = styled.main`
       }
     }
     form {
+      padding: 34px 22.5px 19px;
       height: 502px;
       h2 {
         font-size: 1.125rem;

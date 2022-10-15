@@ -13,6 +13,7 @@ export const ButtonS = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 4px;
+  margin-top: 5px;
   margin-bottom: 13px;
   @media (min-width: 435px) {
     & {

@@ -9,7 +9,8 @@ export const Section = styled.section`
     justify-content: center;
     gap: 10px;
     flex-direction: column;
-    width: 70%;
+    width: 90%;
+    max-width: 780px;
     height: 100%;
     margin: 0 auto;
     @media (min-width: 800px) {
@@ -29,7 +30,8 @@ export const Section = styled.section`
   }
 `;
 export const SectionConstructor = styled.section`
-  width: 70%;
+  width: 90%;
+  max-width: 780px;
   margin: 37px auto;
   display: flex;
   flex-direction: column;

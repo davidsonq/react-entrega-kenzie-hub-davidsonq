@@ -1,16 +1,22 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { FiAlertCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../contexts/UserContext";
+import { useProvider } from "../../contexts/UserContext";
 import { api } from "../../servers/Api";
 import { formSchema } from "../../validation/registerTechnology";
+import { AsideS } from "../../styles/ModalStyle";
+import { InputStyle } from "../../styles/InputStyle";
+import { SelectStyle } from "../../styles/SelectStyle";
+import { ButtonS } from "../FormLogin/style";
+import { useState } from "react";
 
 export const ModalAddTechnology = () => {
   const { rend, isToken, setRend, navigate, ToastSuccess, ToastError } =
-    useContext(UserContext);
-
+    useProvider();
+  const [isInAnimation, setIsInAnimation] = useState(
+    "animate__animated animate__jackInTheBox"
+  );
   const {
     register,
     handleSubmit,
@@ -47,15 +53,24 @@ export const ModalAddTechnology = () => {
       });
     }
   };
+
+  const handleAimation = () => {
+    setIsInAnimation("animate__animated animate__bounceOut");
+    setTimeout(() => {
+      setIsInAnimation("animate__animated animate__jackInTheBox");
+      navigate("/dashbord");
+    }, 900);
+  };
+
   return (
-    <aside>
-      <div>
+    <AsideS>
+      <div className={isInAnimation}>
         <div>
           <h3>Cadastrar Tecnologia</h3>
-          <Link to={"/dashbord"}>X</Link>
+          <Link onClick={handleAimation}>X</Link>
         </div>
         <form onSubmit={handleSubmit(onSubmitFunctionAddTech)}>
-          <div>
+          <InputStyle>
             <label htmlFor="name">Nome</label>
             <input
               className={errors.title?.message ? "red__input" : ""}
@@ -64,22 +79,25 @@ export const ModalAddTechnology = () => {
               {...register("title")}
               placeholder="Digite nome da tecnologia"
             />
-          </div>
-          <span>
-            {errors.title?.message && <FiAlertCircle />}
-            <strong>{errors.title?.message}</strong>
-          </span>
-          <div>
+          </InputStyle>
+          {errors.title?.message && (
+            <span>
+              <FiAlertCircle />
+              <strong>{errors.title?.message}</strong>
+            </span>
+          )}
+
+          <SelectStyle>
             <label htmlFor="course_module">Selecionar status</label>
             <select id="course_module" {...register("status")}>
               <option value="Iniciante">Iniciante</option>
               <option value="Intermediário">Intermediário</option>
               <option value="Avançado">Avançado</option>
             </select>
-          </div>
-          <button type="submit">Cadastrar Tecnologia</button>
+          </SelectStyle>
+          <ButtonS type="submit">Cadastrar Tecnologia</ButtonS>
         </form>
       </div>
-    </aside>
+    </AsideS>
   );
 };

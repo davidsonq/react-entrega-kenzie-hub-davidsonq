@@ -5,12 +5,11 @@ import { NavigateRegister } from "../NavigateRegister";
 import { FiAlertCircle } from "react-icons/fi";
 import { ButtonEye } from "../ButtonEye";
 import { ButtonS } from "./style";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import { useProvider } from "../../contexts/UserContext";
 import { InputStyle } from "../../styles/InputStyle";
 
 export const FormLogin = ({ onSubmitFunctionLogin }) => {
-  const { useEye } = useContext(UserContext);
+  const { useEye } = useProvider();
 
   const {
     register,

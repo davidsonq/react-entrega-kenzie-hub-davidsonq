@@ -1,13 +1,14 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-export const UserContext = createContext({});
+const UserContext = createContext({});
 
 export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [rend, setRend] = useState(false);
+
   const isToken = localStorage.getItem("@KenzieHub:token");
 
   const [useEye, setUseEye] = useState("password");
@@ -63,3 +64,5 @@ export const UserContextProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
+
+export const useProvider = () => useContext(UserContext);

@@ -1,20 +1,24 @@
-import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import { useProvider } from "../../contexts/UserContext";
 import { CardTechnology } from "../CardTechnology";
+import { ContainerStyle, UlStyle } from "./style";
 
 export const ListTechnology = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useProvider();
   const { techs } = user;
 
   return (
-    <ul>
+    <>
       {!techs.length ? (
-        <li>
+        <ContainerStyle>
           <h2>Nenhuma Tecnologia criada!</h2>
-        </li>
+        </ContainerStyle>
       ) : (
-        techs.map((tech) => <CardTechnology key={tech.id} tech={tech} />)
+        <UlStyle>
+          {techs.map((tech) => (
+            <CardTechnology key={tech.id} tech={tech} />
+          ))}
+        </UlStyle>
       )}
-    </ul>
+    </>
   );
 };

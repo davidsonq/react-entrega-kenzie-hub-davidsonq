@@ -1,15 +1,18 @@
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UserContext } from "../../contexts/UserContext";
+import { useProvider } from "../../contexts/UserContext";
 import { formSchema } from "../../validation/editTechs";
 import { HandleOption } from "../HandleOption";
 import { api } from "../../servers/Api";
+import { AsideS } from "../../styles/ModalStyle";
+import { InputStyle } from "../../styles/InputStyle";
+import { SelectStyle } from "../../styles/SelectStyle";
+import { EditButton, ExitButton } from "./style";
 
 export const ModalEditTechnology = () => {
   const { user, isToken, ToastSuccess, ToastError, navigate, setRend, rend } =
-    useContext(UserContext);
+    useProvider();
 
   const { techs } = user;
 
@@ -25,7 +28,7 @@ export const ModalEditTechnology = () => {
 
   const onSubmitFunctionEditTech = async (data) => {
     try {
-      const response = await api.put(`/users/techs/${filterTech[0].id}`, data, {
+      await api.put(`/users/techs/${filterTech[0].id}`, data, {
         headers: {
           "Context-Type": "Application/json",
           Authorization: `Bearer ${JSON.parse(isToken)}`,
@@ -54,7 +57,7 @@ export const ModalEditTechnology = () => {
   const onSubmitFunctionDeleteTech = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.delete(`/users/techs/${filterTech[0].id}`, {
+      await api.delete(`/users/techs/${filterTech[0].id}`, {
         headers: {
           "Context-Type": "Application/json",
           Authorization: `Bearer ${JSON.parse(isToken)}`,
@@ -81,14 +84,14 @@ export const ModalEditTechnology = () => {
   };
 
   return (
-    <aside>
+    <AsideS>
       <div>
         <div>
           <h3>Tecnologia Detalhes</h3>
           <Link to={"/dashbord"}>X</Link>
         </div>
         <form onSubmit={handleSubmit(onSubmitFunctionEditTech)}>
-          <div>
+          <InputStyle>
             <label htmlFor="name">Nome do projeto</label>
             <input
               type="text"
@@ -96,23 +99,23 @@ export const ModalEditTechnology = () => {
               disabled
               placeholder={filterTech[0].title}
             />
-          </div>
-          <div>
+          </InputStyle>
+          <SelectStyle>
             <label htmlFor="course_module">Selecionar status</label>
             <select id="course_module" {...register("status")}>
               <HandleOption status={filterTech[0].status} />
             </select>
-          </div>
+          </SelectStyle>
           <div>
-            <button disabled={!status} type="submit">
+            <EditButton status={!status} disabled={!status} type="submit">
               Salvar alterações
-            </button>
-            <button onClick={onSubmitFunctionDeleteTech} type="button">
+            </EditButton>
+            <ExitButton onClick={onSubmitFunctionDeleteTech} type="button">
               Excluir
-            </button>
+            </ExitButton>
           </div>
         </form>
       </div>
-    </aside>
+    </AsideS>
   );
 };

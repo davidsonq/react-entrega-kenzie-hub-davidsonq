@@ -1,13 +1,13 @@
 import * as animationData from "../../lotties/loading.json";
 import Lottie from "react-lottie";
 import { api } from "../../servers/Api";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { ContainerLoading } from "./style";
-import { UserContext } from "../../contexts/UserContext";
+import { useProvider } from "../../contexts/UserContext";
 
 export const ProtectRoutes = () => {
-  const { user, setUser, isToken, rend, setRend } = useContext(UserContext);
+  const { setUser, isToken, rend, setRend } = useProvider();
 
   const navigate = useNavigate();
 
