@@ -8,9 +8,7 @@ const UserContext = createContext({});
 export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [rend, setRend] = useState(false);
-  const [isInAnimation, setIsInAnimation] = useState(
-    "animate__animated animate__jackInTheBox"
-  );
+
   const isToken = localStorage.getItem("@KenzieHub:token");
 
   const [useEye, setUseEye] = useState("password");
@@ -46,13 +44,7 @@ export const UserContextProvider = ({ children }) => {
       toast.addEventListener("mouseleave", MySwal.resumeTimer);
     },
   });
-  const handleAnimation = () => {
-    setIsInAnimation("animate__animated animate__bounceOut");
-    setTimeout(() => {
-      setIsInAnimation("animate__animated animate__jackInTheBox");
-      navigate("/dashbord", { replace: true });
-    }, 900);
-  };
+
   return (
     <UserContext.Provider
       value={{
@@ -66,8 +58,6 @@ export const UserContextProvider = ({ children }) => {
         navigate,
         rend,
         setRend,
-        isInAnimation,
-        handleAnimation,
       }}
     >
       {children}

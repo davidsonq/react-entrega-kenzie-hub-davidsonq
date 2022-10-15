@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useProvider } from "../../contexts/UserContext";
 import { formSchema } from "../../validation/editTechs";
@@ -12,18 +12,9 @@ import { SelectStyle } from "../../styles/SelectStyle";
 import { EditButton, ExitButton } from "./style";
 
 export const ModalEditTechnology = () => {
-  const {
-    isInAnimation,
-    handleAnimation,
-    user,
-    isToken,
-    ToastSuccess,
-    ToastError,
-    navigate,
-    setRend,
-    rend,
-  } = useProvider();
-  const modalRef = UseOutCLick(() => handleAnimation());
+  const { user, isToken, ToastSuccess, ToastError, navigate, setRend, rend } =
+    useProvider();
+  const modalRef = UseOutCLick(() => navigate("/dashbord", { replace: true }));
   const { techs } = user;
 
   const { name } = useParams();
@@ -96,10 +87,16 @@ export const ModalEditTechnology = () => {
 
   return (
     <AsideS>
-      <div ref={modalRef} className={isInAnimation}>
+      <div ref={modalRef} className="animate__animated animate__jackInTheBox">
         <div>
           <h3>Tecnologia Detalhes</h3>
-          <Link onClick={handleAnimation}>X</Link>
+          <button
+            className="exit__button"
+            onClick={() => navigate("/dashbord", { replace: true })}
+            type="button"
+          >
+            X
+          </button>
         </div>
         <form onSubmit={handleSubmit(onSubmitFunctionEditTech)}>
           <InputStyle>

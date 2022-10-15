@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { FiAlertCircle } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import { useProvider } from "../../contexts/UserContext";
 import { api } from "../../servers/Api";
 import { formSchema } from "../../validation/registerTechnology";
@@ -12,18 +11,10 @@ import { ButtonS } from "../FormLogin/style";
 import { UseOutCLick } from "../../hooks/UseOutClick";
 
 export const ModalAddTechnology = () => {
-  const {
-    rend,
-    isToken,
-    isInAnimation,
-    handleAnimation,
-    setRend,
-    navigate,
-    ToastSuccess,
-    ToastError,
-  } = useProvider();
+  const { rend, isToken, setRend, navigate, ToastSuccess, ToastError } =
+    useProvider();
 
-  const modalRef = UseOutCLick(() => handleAnimation());
+  const modalRef = UseOutCLick(() => navigate("/dashbord", { replace: true }));
 
   const {
     register,
@@ -64,10 +55,16 @@ export const ModalAddTechnology = () => {
 
   return (
     <AsideS>
-      <div ref={modalRef} className={isInAnimation}>
+      <div ref={modalRef} className="animate__animated animate__jackInTheBox">
         <div>
           <h3>Cadastrar Tecnologia</h3>
-          <Link onClick={handleAnimation}>X</Link>
+          <button
+            className="exit__button"
+            onClick={() => navigate("/dashbord", { replace: true })}
+            type="button"
+          >
+            X
+          </button>
         </div>
         <form onSubmit={handleSubmit(onSubmitFunctionAddTech)}>
           <InputStyle>
