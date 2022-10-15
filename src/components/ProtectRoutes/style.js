@@ -7,6 +7,7 @@ export const ContainerLoading = styled.div`
   gap: 30px;
   align-items: center;
   justify-content: center;
+  background-color: #00000050;
   h1 {
     font-weight: 700;
     font-size: 2rem;

@@ -6,10 +6,10 @@ export const Main = styled.main`
   align-items: center;
 
   width: 100%;
-  gap: 38px;
+  gap: 16px;
 
   header {
-    margin-top: 57px;
+    margin-top: 16px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -43,15 +43,14 @@ export const Main = styled.main`
     flex-direction: column;
     align-items: center;
     border-radius: 3.2px;
-    gap: 6px;
-    padding: 34px 18px 19px;
+    padding: 24px 18px 19px;
 
     h2 {
       font-size: 0.899rem;
       font-weight: 700;
     }
     h3 {
-      margin: 17px 0;
+      margin: 10px 0;
       font-size: 0.599rem;
       font-weight: 400;
       color: var(--color-grey-1);
@@ -61,7 +60,7 @@ export const Main = styled.main`
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 25px;
+    height: 29px;
     width: 100%;
     gap: 10px;
     color: var(--color-primary);
@@ -93,7 +92,7 @@ export const Main = styled.main`
     }
 
     form {
-      padding: 34px 22.5px 19px;
+      padding: 24px 22.5px 19px;
       h2 {
         font-size: 1.125rem;
       }

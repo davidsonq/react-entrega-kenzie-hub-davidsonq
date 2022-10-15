@@ -16,7 +16,7 @@ export const RoutesMain = () => {
         <Route element={<ProtectRoutes />}>
           <Route path="dashbord" element={<DashBord />}>
             <Route path="register" element={<ModalAddTechnology />} />
-            <Route path="edit/:id" element={<ModalEditTechnology />} />
+            <Route path="edit/:name" element={<ModalEditTechnology />} />
           </Route>
         </Route>
         <Route path="*" element={<Login />} />

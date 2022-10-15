@@ -5,20 +5,31 @@ import { useProvider } from "../../contexts/UserContext";
 import { formSchema } from "../../validation/editTechs";
 import { HandleOption } from "../HandleOption";
 import { api } from "../../servers/Api";
+import { UseOutCLick } from "../../hooks/UseOutClick";
 import { AsideS } from "../../styles/ModalStyle";
 import { InputStyle } from "../../styles/InputStyle";
 import { SelectStyle } from "../../styles/SelectStyle";
 import { EditButton, ExitButton } from "./style";
 
 export const ModalEditTechnology = () => {
-  const { user, isToken, ToastSuccess, ToastError, navigate, setRend, rend } =
-    useProvider();
-
+  const {
+    isInAnimation,
+    handleAnimation,
+    user,
+    isToken,
+    ToastSuccess,
+    ToastError,
+    navigate,
+    setRend,
+    rend,
+  } = useProvider();
+  const modalRef = UseOutCLick(() => handleAnimation());
   const { techs } = user;
 
-  const { id } = useParams();
+  const { name } = useParams();
+  const title = name.replaceAll("+", "/");
 
-  const filterTech = techs.filter((tech) => tech.id === id);
+  const filterTech = techs.filter((tech) => tech.title === title);
 
   const { register, handleSubmit, watch } = useForm({
     resolver: yupResolver(formSchema),
@@ -35,7 +46,7 @@ export const ModalEditTechnology = () => {
         },
       });
       setRend(false);
-      navigate("/dashbord");
+      navigate("/dashbord", { replace: true });
       if (rend) {
         ToastSuccess.fire({
           icon: "success",
@@ -50,7 +61,7 @@ export const ModalEditTechnology = () => {
       });
       localStorage.removeItem("@KenzieHub:token");
       localStorage.removeItem("@KenzieHub:uuid");
-      navigate("/");
+      navigate("/", { replace: true });
     }
   };
 
@@ -64,7 +75,7 @@ export const ModalEditTechnology = () => {
         },
       });
       setRend(false);
-      navigate("/dashbord");
+      navigate("/dashbord", { replace: true });
       if (rend) {
         ToastSuccess.fire({
           icon: "success",
@@ -79,16 +90,16 @@ export const ModalEditTechnology = () => {
       });
       localStorage.removeItem("@KenzieHub:token");
       localStorage.removeItem("@KenzieHub:uuid");
-      navigate("/");
+      navigate("/", { replace: true });
     }
   };
 
   return (
     <AsideS>
-      <div>
+      <div ref={modalRef} className={isInAnimation}>
         <div>
           <h3>Tecnologia Detalhes</h3>
-          <Link to={"/dashbord"}>X</Link>
+          <Link onClick={handleAnimation}>X</Link>
         </div>
         <form onSubmit={handleSubmit(onSubmitFunctionEditTech)}>
           <InputStyle>
@@ -107,7 +118,12 @@ export const ModalEditTechnology = () => {
             </select>
           </SelectStyle>
           <div>
-            <EditButton status={!status} disabled={!status} type="submit">
+            <EditButton
+              className={!status ? "" : "animate__animated  animate__pulse"}
+              status={!status}
+              disabled={!status}
+              type="submit"
+            >
               Salvar alterações
             </EditButton>
             <ExitButton onClick={onSubmitFunctionDeleteTech} type="button">

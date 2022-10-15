@@ -9,14 +9,22 @@ import { AsideS } from "../../styles/ModalStyle";
 import { InputStyle } from "../../styles/InputStyle";
 import { SelectStyle } from "../../styles/SelectStyle";
 import { ButtonS } from "../FormLogin/style";
-import { useState } from "react";
+import { UseOutCLick } from "../../hooks/UseOutClick";
 
 export const ModalAddTechnology = () => {
-  const { rend, isToken, setRend, navigate, ToastSuccess, ToastError } =
-    useProvider();
-  const [isInAnimation, setIsInAnimation] = useState(
-    "animate__animated animate__jackInTheBox"
-  );
+  const {
+    rend,
+    isToken,
+    isInAnimation,
+    handleAnimation,
+    setRend,
+    navigate,
+    ToastSuccess,
+    ToastError,
+  } = useProvider();
+
+  const modalRef = UseOutCLick(() => handleAnimation());
+
   const {
     register,
     handleSubmit,
@@ -37,7 +45,7 @@ export const ModalAddTechnology = () => {
           Authorization: `Bearer ${JSON.parse(isToken)}`,
         },
       });
-      navigate("/dashbord");
+      navigate("/dashbord", { replace: true });
       setRend(false);
       if (rend) {
         ToastSuccess.fire({
@@ -54,20 +62,12 @@ export const ModalAddTechnology = () => {
     }
   };
 
-  const handleAimation = () => {
-    setIsInAnimation("animate__animated animate__bounceOut");
-    setTimeout(() => {
-      setIsInAnimation("animate__animated animate__jackInTheBox");
-      navigate("/dashbord");
-    }, 900);
-  };
-
   return (
     <AsideS>
-      <div className={isInAnimation}>
+      <div ref={modalRef} className={isInAnimation}>
         <div>
           <h3>Cadastrar Tecnologia</h3>
-          <Link onClick={handleAimation}>X</Link>
+          <Link onClick={handleAnimation}>X</Link>
         </div>
         <form onSubmit={handleSubmit(onSubmitFunctionAddTech)}>
           <InputStyle>
@@ -86,7 +86,6 @@ export const ModalAddTechnology = () => {
               <strong>{errors.title?.message}</strong>
             </span>
           )}
-
           <SelectStyle>
             <label htmlFor="course_module">Selecionar status</label>
             <select id="course_module" {...register("status")}>
