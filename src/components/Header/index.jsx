@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Logo from "../../assets/Logo.svg";
 import { HeaderS } from "./style";
-export const Header = ({ handleAnimation }) => {
+export const Header = () => {
   return (
     <HeaderS>
       <div>
@@ -12,8 +12,8 @@ export const Header = ({ handleAnimation }) => {
           onClick={() => {
             localStorage.removeItem("@KenzieHub:token");
             localStorage.removeItem("@KenzieHub:uuid");
-            handleAnimation();
           }}
+          to={"/"}
         >
           Sair
         </Link>

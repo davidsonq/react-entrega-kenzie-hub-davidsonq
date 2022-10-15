@@ -4,9 +4,11 @@ export const HeaderS = styled.header`
   position: sticky;
   top: 0;
   width: 100%;
+  background-color: var(--color-grey-4);
   border-bottom: 1px solid var(--color-grey-3);
   div {
-    width: 70%;
+    width: 90%;
+    max-width: 780px;
     height: 100%;
     display: flex;
     justify-content: space-between;

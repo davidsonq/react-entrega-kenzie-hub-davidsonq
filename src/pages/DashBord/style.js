@@ -1,17 +1,5 @@
 import styled from "styled-components";
-export const ContainerLoading = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  flex-direction: column;
-  gap: 30px;
-  align-items: center;
-  justify-content: center;
-  h1 {
-    font-weight: 700;
-    font-size: 2rem;
-  }
-`;
+
 export const Section = styled.section`
   height: 130px;
   width: 100%;
@@ -21,7 +9,8 @@ export const Section = styled.section`
     justify-content: center;
     gap: 10px;
     flex-direction: column;
-    width: 70%;
+    width: 90%;
+    max-width: 780px;
     height: 100%;
     margin: 0 auto;
     @media (min-width: 800px) {
@@ -41,7 +30,8 @@ export const Section = styled.section`
   }
 `;
 export const SectionConstructor = styled.section`
-  width: 70%;
+  width: 90%;
+  max-width: 780px;
   margin: 37px auto;
   display: flex;
   flex-direction: column;
