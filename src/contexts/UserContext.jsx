@@ -8,7 +8,7 @@ const UserContext = createContext({});
 export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [rend, setRend] = useState(false);
-
+  const [rendModal, setRendModal] = useState(true);
   const isToken = localStorage.getItem("@KenzieHub:token");
 
   const [useEye, setUseEye] = useState("password");
@@ -58,6 +58,8 @@ export const UserContextProvider = ({ children }) => {
         navigate,
         rend,
         setRend,
+        rendModal,
+        setRendModal,
       }}
     >
       {children}

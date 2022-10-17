@@ -16,6 +16,7 @@ export const Register = () => {
         icon: "success",
         title: `Conta cadastrada com sucesso!`,
       });
+
       navigate("/", { replace: true });
     } catch (error) {
       ToastError.fire({

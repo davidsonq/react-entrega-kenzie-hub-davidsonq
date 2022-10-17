@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const ButtonS = styled.button`
-  cursor: pointer;
+  cursor: ${(props) => (props.rendModal ? "no-drop" : "pointer")};
   width: 100%;
   height: 38.5px;
-  border: 1px solid var(--color-primary);
-  background-color: var(--color-primary);
+  background-color: ${(props) => (props.rendModal ? "#59323F" : "#FF577F")};
+  border: 1px solid ${(props) => (props.rendModal ? "#59323F" : "#FF577F")};
   color: #ffffff;
   font-size: 0.813rem;
   font-weight: 500;
@@ -23,7 +23,8 @@ export const ButtonS = styled.button`
     }
     &:hover {
       transition: 0.5s;
-      background-color: var(--color-primary-focus);
+      background-color: ${(props) => (props.rendModal ? "#59323F" : "#FF427F")};
+      border: 1px solid ${(props) => (props.rendModal ? "#59323F" : "#FF427F")};
     }
   }
 `;

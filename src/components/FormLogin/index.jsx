@@ -7,9 +7,10 @@ import { ButtonEye } from "../ButtonEye";
 import { ButtonS } from "./style";
 import { useProvider } from "../../contexts/UserContext";
 import { InputStyle } from "../../styles/InputStyle";
+import { LoadingDashbord } from "../LoadingDashbord";
 
 export const FormLogin = ({ onSubmitFunctionLogin }) => {
-  const { useEye } = useProvider();
+  const { useEye, rendModal } = useProvider();
 
   const {
     register,
@@ -61,7 +62,9 @@ export const FormLogin = ({ onSubmitFunctionLogin }) => {
         )}
         {errors.password?.message}
       </span>
-      <ButtonS type="submit">Entrar</ButtonS>
+      <ButtonS rendModal={!rendModal} disabled={!rendModal} type="submit">
+        {!rendModal ? <LoadingDashbord /> : "Entrar"}
+      </ButtonS>
       <NavigateRegister />
     </form>
   );

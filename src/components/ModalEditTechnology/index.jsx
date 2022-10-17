@@ -12,8 +12,15 @@ import { SelectStyle } from "../../styles/SelectStyle";
 import { EditButton, ExitButton } from "./style";
 
 export const ModalEditTechnology = () => {
-  const { user, isToken, ToastSuccess, ToastError, navigate, setRend, rend } =
-    useProvider();
+  const {
+    rendModal,
+    user,
+    isToken,
+    ToastSuccess,
+    ToastError,
+    navigate,
+    setRendModal,
+  } = useProvider();
   const modalRef = UseOutCLick(() => navigate("/dashbord", { replace: true }));
   const { techs } = user;
 
@@ -29,6 +36,7 @@ export const ModalEditTechnology = () => {
   const status = watch("status");
 
   const onSubmitFunctionEditTech = async (data) => {
+    setRendModal(false);
     try {
       await api.put(`/users/techs/${filterTech[0].id}`, data, {
         headers: {
@@ -36,14 +44,12 @@ export const ModalEditTechnology = () => {
           Authorization: `Bearer ${JSON.parse(isToken)}`,
         },
       });
-      setRend(false);
       navigate("/dashbord", { replace: true });
-      if (rend) {
-        ToastSuccess.fire({
-          icon: "success",
-          title: `Alteração feita com sucesso!`,
-        });
-      }
+
+      ToastSuccess.fire({
+        icon: "success",
+        title: `Alteração feita com sucesso!`,
+      });
     } catch (error) {
       ToastError.fire({
         icon: "error",
@@ -57,6 +63,7 @@ export const ModalEditTechnology = () => {
   };
 
   const onSubmitFunctionDeleteTech = async (e) => {
+    setRendModal(false);
     e.preventDefault();
     try {
       await api.delete(`/users/techs/${filterTech[0].id}`, {
@@ -65,14 +72,13 @@ export const ModalEditTechnology = () => {
           Authorization: `Bearer ${JSON.parse(isToken)}`,
         },
       });
-      setRend(false);
+
       navigate("/dashbord", { replace: true });
-      if (rend) {
-        ToastSuccess.fire({
-          icon: "success",
-          title: `Deletado com sucesso!`,
-        });
-      }
+
+      ToastSuccess.fire({
+        icon: "success",
+        title: `Deletado com sucesso!`,
+      });
     } catch (error) {
       ToastError.fire({
         icon: "error",
@@ -118,12 +124,16 @@ export const ModalEditTechnology = () => {
             <EditButton
               className={!status ? "" : "animate__animated  animate__pulse"}
               status={!status}
-              disabled={!status}
+              disabled={!status || !rendModal}
               type="submit"
             >
               Salvar alterações
             </EditButton>
-            <ExitButton onClick={onSubmitFunctionDeleteTech} type="button">
+            <ExitButton
+              disabled={!rendModal}
+              onClick={onSubmitFunctionDeleteTech}
+              type="button"
+            >
               Excluir
             </ExitButton>
           </div>
