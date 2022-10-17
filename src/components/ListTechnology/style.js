@@ -2,8 +2,10 @@ import styled from "styled-components";
 export const UlStyle = styled.ul`
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 16px;
+  max-height: 420px;
+  overflow-y: scroll;
   padding: 22px 8.5px;
   background-color: var(--color-grey-3);
   border-radius: 4px;
