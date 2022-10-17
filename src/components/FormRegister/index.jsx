@@ -28,7 +28,6 @@ export const FormRegister = ({ onSubmitFunctionRegister }) => {
 
   const isValid =
     name && email && password && confirmPassword && bio && contact;
-
   return (
     <form onSubmit={handleSubmit(onSubmitFunctionRegister)}>
       <h2>Crie sua conta</h2>
@@ -139,7 +138,9 @@ export const FormRegister = ({ onSubmitFunctionRegister }) => {
       <ButtonRegister
         className={!isValid ? "" : "animate__animated  animate__pulse"}
         isValid={!isValid}
+        cursoPoint={isValid === ""}
         type="submit"
+        disabled={isValid === ""}
       >
         Cadastrar
       </ButtonRegister>

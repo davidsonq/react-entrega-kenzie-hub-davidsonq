@@ -30,7 +30,8 @@ export const EditButton = styled.button`
   border-radius: 4px;
   border: 1px solid ${(props) => (props.status ? "#59323F" : "#FF577F")};
   background-color: ${(props) => (props.status ? "#59323F" : "#FF577F")};
-  cursor: pointer;
+
+  cursor: ${(props) => (props.status ? "no-drop" : "pointer")};
   color: #ffffff;
   font-weight: 500;
   font-size: 0.799rem;

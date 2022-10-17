@@ -1,6 +1,6 @@
 import styled from "styled-components";
 export const ButtonRegister = styled.button`
-  cursor: pointer;
+  cursor: ${(props) => (props.cursoPoint ? "no-drop" : "pointer")};
   width: 100%;
   height: 38.5px;
   margin-top: 17px;
