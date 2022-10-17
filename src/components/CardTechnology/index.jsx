@@ -7,7 +7,7 @@ export const CardTechnology = ({ tech }) => {
   const NewName = name.replaceAll("/", "+");
 
   return (
-    <LiStyle isAdvanced={status}>
+    <LiStyle className="animate__animated animate__zoomIn" isAdvanced={status}>
       <Link to={`edit/${NewName}`}>
         <h3>{title}</h3>
         <p>{status}</p>

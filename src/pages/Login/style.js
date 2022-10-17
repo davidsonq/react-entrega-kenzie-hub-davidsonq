@@ -12,7 +12,7 @@ export const Main = styled.main`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 23px 16px;
+    padding: 20px 16px;
     background-color: var(--color-grey-3);
     border-radius: 3px;
     height: 402px;
@@ -49,7 +49,7 @@ export const Main = styled.main`
       }
     }
     form {
-      padding: 34px 22.5px 19px;
+      padding: 30px 22.5px 19px;
       height: 502px;
       h2 {
         font-size: 1.125rem;

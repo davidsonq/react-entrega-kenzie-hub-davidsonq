@@ -9,10 +9,17 @@ import { InputStyle } from "../../styles/InputStyle";
 import { SelectStyle } from "../../styles/SelectStyle";
 import { ButtonS } from "../FormLogin/style";
 import { UseOutCLick } from "../../hooks/UseOutClick";
+import { LoadingDashbord } from "../LoadingDashbord";
 
 export const ModalAddTechnology = () => {
-  const { rend, isToken, setRend, navigate, ToastSuccess, ToastError } =
-    useProvider();
+  const {
+    rendModal,
+    isToken,
+    setRendModal,
+    navigate,
+    ToastSuccess,
+    ToastError,
+  } = useProvider();
 
   const modalRef = UseOutCLick(() => navigate("/dashbord", { replace: true }));
 
@@ -28,7 +35,7 @@ export const ModalAddTechnology = () => {
     const dataTrim = data.title.trim();
 
     const dataNewFormat = { ...data, title: dataTrim };
-
+    setRendModal(false);
     try {
       await api.post("/users/techs", dataNewFormat, {
         headers: {
@@ -36,9 +43,9 @@ export const ModalAddTechnology = () => {
           Authorization: `Bearer ${JSON.parse(isToken)}`,
         },
       });
+
       navigate("/dashbord", { replace: true });
-      setRend(false);
-      if (rend) {
+      if (rendModal) {
         ToastSuccess.fire({
           icon: "success",
           title: `Tecnologia cadastrada com sucesso!`,
@@ -91,7 +98,9 @@ export const ModalAddTechnology = () => {
               <option value="Avançado">Avançado</option>
             </select>
           </SelectStyle>
-          <ButtonS type="submit">Cadastrar Tecnologia</ButtonS>
+          <ButtonS rendModal={!rendModal} disabled={!rendModal} type="submit">
+            {!rendModal ? <LoadingDashbord /> : "Cadastrar Tecnologia"}
+          </ButtonS>
         </form>
       </div>
     </AsideS>
