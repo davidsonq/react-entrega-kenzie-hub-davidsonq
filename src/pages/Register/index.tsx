@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Logo.svg";
 import { Main } from "./style";
 import { useProvider } from "../../contexts/UserContext";
 import { api } from "../../servers/Api";
@@ -8,7 +7,7 @@ import { FormRegister } from "../../components/FormRegister";
 export const Register = () => {
   const { ToastSuccess, navigate, ToastError } = useProvider();
 
-  const onSubmitFunctionRegister = async (data) => {
+  const onSubmitFunctionRegister = async (data: {}) => {
     try {
       await api.post("/users", data);
 
@@ -31,7 +30,7 @@ export const Register = () => {
     <Main className="animate__animated animate__zoomIn">
       <header>
         <figure>
-          <img src={Logo} alt="Logo" />
+          <img src={require("../../assets/Logo.svg").default} alt="Logo" />
         </figure>
         <Link to={"/"}>Voltar</Link>
       </header>

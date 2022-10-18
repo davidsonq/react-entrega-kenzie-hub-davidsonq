@@ -10,6 +10,10 @@ import { SelectStyle } from "../../styles/SelectStyle";
 import { ButtonS } from "../FormLogin/style";
 import { UseOutCLick } from "../../hooks/UseOutClick";
 import { LoadingDashbord } from "../LoadingDashbord";
+interface iType {
+  title: string;
+  status: string;
+}
 
 export const ModalAddTechnology = () => {
   const {
@@ -27,11 +31,11 @@ export const ModalAddTechnology = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<iType>({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmitFunctionAddTech = async (data) => {
+  const onSubmitFunctionAddTech = handleSubmit(async (data) => {
     const dataTrim = data.title.trim();
 
     const dataNewFormat = { ...data, title: dataTrim };
@@ -58,7 +62,7 @@ export const ModalAddTechnology = () => {
         title: `Tecnologia já cadastrada!`,
       });
     }
-  };
+  });
 
   return (
     <AsideS>
@@ -73,7 +77,7 @@ export const ModalAddTechnology = () => {
             X
           </button>
         </div>
-        <form onSubmit={handleSubmit(onSubmitFunctionAddTech)}>
+        <form onSubmit={onSubmitFunctionAddTech}>
           <InputStyle>
             <label htmlFor="name">Nome</label>
             <input

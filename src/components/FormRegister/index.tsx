@@ -7,8 +7,10 @@ import { ButtonRegister } from "./style";
 import { useProvider } from "../../contexts/UserContext";
 import { InputStyle } from "../../styles/InputStyle";
 import { SelectStyle } from "../../styles/SelectStyle";
-
-export const FormRegister = ({ onSubmitFunctionRegister }) => {
+interface iFormRegister {
+  onSubmitFunctionRegister: (data: {}) => void;
+}
+export const FormRegister = ({ onSubmitFunctionRegister }: iFormRegister) => {
   const { useEye } = useProvider();
   const {
     register,
@@ -43,8 +45,11 @@ export const FormRegister = ({ onSubmitFunctionRegister }) => {
         />
       </InputStyle>
       <span>
-        {errors.name?.message && <FiAlertCircle />}
-        <strong>{errors.name?.message}</strong>
+        <>{errors.name?.message && <FiAlertCircle />}</>
+
+        <strong>
+          <>{errors.name?.message}</>
+        </strong>
       </span>
       <InputStyle>
         <label htmlFor="email">Email</label>
@@ -57,8 +62,10 @@ export const FormRegister = ({ onSubmitFunctionRegister }) => {
         />
       </InputStyle>
       <span>
-        {errors.email?.message && <FiAlertCircle />}
-        <strong>{errors.email?.message}</strong>
+        <>{errors.email?.message && <FiAlertCircle />}</>
+        <strong>
+          <>{errors.email?.message}</>
+        </strong>
       </span>
       <InputStyle>
         <label htmlFor="senha">Senha</label>
@@ -72,8 +79,10 @@ export const FormRegister = ({ onSubmitFunctionRegister }) => {
         <ButtonEye />
       </InputStyle>
       <span>
-        {errors.password?.message && <FiAlertCircle />}
-        <strong>{errors.password?.message}</strong>
+        <>{errors.password?.message && <FiAlertCircle />}</>
+        <strong>
+          <>{errors.password?.message}</>
+        </strong>
       </span>
       <InputStyle>
         <label htmlFor="confirmPassword">Confirmar Senha</label>
@@ -88,7 +97,9 @@ export const FormRegister = ({ onSubmitFunctionRegister }) => {
       </InputStyle>
       <span>
         {errors.confirmPassword?.message && <FiAlertCircle />}
-        <strong>{errors.confirmPassword?.message}</strong>
+        <strong>
+          <>{errors.confirmPassword?.message}</>
+        </strong>
       </span>
       <InputStyle>
         <label htmlFor="bio">Bio</label>
@@ -102,7 +113,9 @@ export const FormRegister = ({ onSubmitFunctionRegister }) => {
       </InputStyle>
       <span>
         {errors.bio?.message && <FiAlertCircle />}
-        <strong>{errors.bio?.message}</strong>
+        <strong>
+          <>{errors.bio?.message}</>
+        </strong>
       </span>
       <InputStyle>
         <label htmlFor="contact">Contato</label>
@@ -116,7 +129,9 @@ export const FormRegister = ({ onSubmitFunctionRegister }) => {
       </InputStyle>
       <span>
         {errors.contact?.message && <FiAlertCircle />}
-        <strong>{errors.contact?.message}</strong>
+        <strong>
+          <>{errors.contact?.message}</>
+        </strong>
       </span>
       <SelectStyle>
         <label htmlFor="course_module">Selecionar módulo</label>

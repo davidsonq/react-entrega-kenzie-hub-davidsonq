@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import { LiStyle } from "./style";
-
-export const CardTechnology = ({ tech }) => {
+interface iCardTechnology {
+  tech: {
+    title: string;
+    status: string;
+  };
+}
+export const CardTechnology = ({ tech }: iCardTechnology) => {
   const { title, status } = tech;
   const name = tech.title;
   const NewName = name.replaceAll("/", "+");

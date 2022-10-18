@@ -4,7 +4,8 @@ import { App } from "./App";
 import "animate.css";
 import { BrowserRouter } from "react-router-dom";
 import { GlobalStyle } from "./styles/GlobalStyle.js";
-ReactDOM.createRoot(document.getElementById("root")).render(
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <GlobalStyle />

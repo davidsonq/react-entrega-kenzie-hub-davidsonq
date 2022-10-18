@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Logo.svg";
 import { HeaderS } from "./style";
 export const Header = () => {
   return (
     <HeaderS>
       <div>
         <figure>
-          <img src={Logo} alt="Logo" />
+          <img src={require("../../assets/Logo.svg").default} alt="Logo" />
         </figure>
         <Link
           onClick={() => {

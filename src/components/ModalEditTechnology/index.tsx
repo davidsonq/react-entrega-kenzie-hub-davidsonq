@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useProvider } from "../../contexts/UserContext";
+import { NavigateFunction, useProvider } from "../../contexts/UserContext";
 import { formSchema } from "../../validation/editTechs";
 import { HandleOption } from "../HandleOption";
 import { api } from "../../servers/Api";
@@ -10,6 +10,7 @@ import { AsideS } from "../../styles/ModalStyle";
 import { InputStyle } from "../../styles/InputStyle";
 import { SelectStyle } from "../../styles/SelectStyle";
 import { EditButton, ExitButton } from "./style";
+import { iTech } from "../ListTechnology";
 
 export const ModalEditTechnology = () => {
   const {
@@ -24,10 +25,12 @@ export const ModalEditTechnology = () => {
   const modalRef = UseOutCLick(() => navigate("/dashbord", { replace: true }));
   const { techs } = user;
 
-  const { name } = useParams();
-  const title = name.replaceAll("+", "/");
+  const { name } = useParams<string>();
+  const title = name?.replaceAll("+", "/");
 
-  const filterTech = techs.filter((tech) => tech.title === title);
+  const filterTech: iTech[] = techs.filter(
+    (tech: iTech): boolean => tech.title === title
+  );
 
   const { register, handleSubmit, watch } = useForm({
     resolver: yupResolver(formSchema),
@@ -35,7 +38,7 @@ export const ModalEditTechnology = () => {
 
   const status = watch("status");
 
-  const onSubmitFunctionEditTech = async (data) => {
+  const onSubmitFunctionEditTech = handleSubmit(async (data) => {
     setRendModal(false);
     try {
       await api.put(`/users/techs/${filterTech[0].id}`, data, {
@@ -60,9 +63,11 @@ export const ModalEditTechnology = () => {
       localStorage.removeItem("@KenzieHub:uuid");
       navigate("/", { replace: true });
     }
-  };
+  });
 
-  const onSubmitFunctionDeleteTech = async (e) => {
+  const onSubmitFunctionDeleteTech = async (
+    e: React.SyntheticEvent<EventListener>
+  ) => {
     setRendModal(false);
     e.preventDefault();
     try {
@@ -104,7 +109,7 @@ export const ModalEditTechnology = () => {
             X
           </button>
         </div>
-        <form onSubmit={handleSubmit(onSubmitFunctionEditTech)}>
+        <form onSubmit={onSubmitFunctionEditTech}>
           <InputStyle>
             <label htmlFor="name">Nome do projeto</label>
             <input

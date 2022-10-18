@@ -1,13 +1,11 @@
 import { api } from "../../servers/Api";
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useProvider } from "../../contexts/UserContext";
 
 export const ProtectRoutes = () => {
-  const { setUser, isToken, rend, setRend, setRendModal, rendModal } =
+  const { navigate, setUser, isToken, rend, setRend, setRendModal, rendModal } =
     useProvider();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const requestProfile = async () => {
