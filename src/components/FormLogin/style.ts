@@ -1,6 +1,8 @@
 import styled from "styled-components";
-
-export const ButtonS = styled.button`
+interface iButtonS {
+  rendModal: boolean;
+}
+export const ButtonS = styled.button<iButtonS>`
   cursor: ${(props) => (props.rendModal ? "no-drop" : "pointer")};
   width: 100%;
   height: 38.5px;

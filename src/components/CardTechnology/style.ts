@@ -1,5 +1,8 @@
 import styled from "styled-components";
-export const LiStyle = styled.li`
+interface iListyle {
+  isAdvanced: string;
+}
+export const LiStyle = styled.li<iListyle>`
   width: 100%;
 
   a {
