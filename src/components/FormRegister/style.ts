@@ -1,5 +1,9 @@
 import styled from "styled-components";
-export const ButtonRegister = styled.button`
+interface iButtonRegister {
+  cursoPoint: boolean;
+  isValid: boolean;
+}
+export const ButtonRegister = styled.button<iButtonRegister>`
   cursor: ${(props) => (props.cursoPoint ? "no-drop" : "pointer")};
   width: 100%;
   height: 38.5px;

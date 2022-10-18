@@ -1,4 +1,7 @@
-export const HandleOption = ({ status }) => {
+interface iHandleOption {
+  status: string;
+}
+export const HandleOption = ({ status }: iHandleOption) => {
   if (status === "Iniciante") {
     return (
       <>

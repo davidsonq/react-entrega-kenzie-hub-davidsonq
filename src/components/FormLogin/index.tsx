@@ -8,8 +8,10 @@ import { ButtonS } from "./style";
 import { useProvider } from "../../contexts/UserContext";
 import { InputStyle } from "../../styles/InputStyle";
 import { LoadingDashbord } from "../LoadingDashbord";
-
-export const FormLogin = ({ onSubmitFunctionLogin }) => {
+interface iFormLogin {
+  onSubmitFunctionLogin: (data: {}) => void;
+}
+export const FormLogin = ({ onSubmitFunctionLogin }: iFormLogin) => {
   const { useEye, rendModal } = useProvider();
 
   const {
@@ -35,12 +37,14 @@ export const FormLogin = ({ onSubmitFunctionLogin }) => {
         />
       </InputStyle>
       <span>
-        {errors.email?.message && (
-          <strong>
-            <FiAlertCircle />
-          </strong>
-        )}
-        {errors.email?.message}
+        <>
+          {errors.email?.message && (
+            <strong>
+              <FiAlertCircle />
+            </strong>
+          )}
+        </>
+        <>{errors.email?.message}</>
       </span>
       <InputStyle>
         <label htmlFor="senha">Senha</label>
@@ -55,12 +59,14 @@ export const FormLogin = ({ onSubmitFunctionLogin }) => {
         <ButtonEye />
       </InputStyle>
       <span>
-        {errors.password?.message && (
-          <strong>
-            <FiAlertCircle />
-          </strong>
-        )}
-        {errors.password?.message}
+        <>
+          {errors.password?.message && (
+            <strong>
+              <FiAlertCircle />
+            </strong>
+          )}
+        </>
+        <>{errors.password?.message}</>
       </span>
       <ButtonS rendModal={!rendModal} disabled={!rendModal} type="submit">
         {!rendModal ? <LoadingDashbord /> : "Entrar"}

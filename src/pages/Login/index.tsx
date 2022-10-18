@@ -1,4 +1,3 @@
-import Logo from "../../assets/Logo.svg";
 import { Main } from "./style";
 import { useProvider } from "../../contexts/UserContext";
 import { Navigate } from "react-router-dom";
@@ -9,7 +8,7 @@ export const Login = () => {
   const { setRendModal, ToastError, isToken, setRend, navigate } =
     useProvider();
 
-  const onSubmitFunctionLogin = async (data) => {
+  const onSubmitFunctionLogin = async (data: {}) => {
     setRendModal(false);
     try {
       const response = await api.post("/sessions", data);
@@ -41,7 +40,7 @@ export const Login = () => {
     <>
       <Main className="animate__animated animate__zoomIn">
         <figure>
-          <img src={Logo} alt="Logo" />
+          <img src={require("../../assets/Logo.svg").default} alt="Logo" />
         </figure>
         <FormLogin onSubmitFunctionLogin={onSubmitFunctionLogin} />
       </Main>
