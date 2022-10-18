@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { NavigateFunction, useProvider } from "../../contexts/UserContext";
+import { useProvider } from "../../contexts/UserContext";
 import { formSchema } from "../../validation/editTechs";
 import { HandleOption } from "../HandleOption";
 import { api } from "../../servers/Api";
@@ -65,11 +65,8 @@ export const ModalEditTechnology = () => {
     }
   });
 
-  const onSubmitFunctionDeleteTech = async (
-    e: React.SyntheticEvent<EventListener>
-  ) => {
+  const onSubmitFunctionDeleteTech = async () => {
     setRendModal(false);
-    e.preventDefault();
     try {
       await api.delete(`/users/techs/${filterTech[0].id}`, {
         headers: {
@@ -128,7 +125,7 @@ export const ModalEditTechnology = () => {
           <div>
             <EditButton
               className={!status ? "" : "animate__animated  animate__pulse"}
-              status={!status}
+              isStatus={!status}
               disabled={!status || !rendModal}
               type="submit"
             >

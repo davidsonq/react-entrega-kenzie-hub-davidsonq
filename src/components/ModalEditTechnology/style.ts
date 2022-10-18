@@ -1,4 +1,7 @@
 import styled from "styled-components";
+interface iExitButton {
+  isStatus: boolean;
+}
 export const ExitButton = styled.button`
   width: 78.35px;
   height: 38.37px;
@@ -24,14 +27,14 @@ export const ExitButton = styled.button`
     }
   }
 `;
-export const EditButton = styled.button`
+export const EditButton = styled.button<iExitButton>`
   width: 163.09px;
   height: 38.37px;
   border-radius: 4px;
-  border: 1px solid ${(props) => (props.status ? "#59323F" : "#FF577F")};
-  background-color: ${(props) => (props.status ? "#59323F" : "#FF577F")};
+  border: 1px solid ${(props) => (props.isStatus ? "#59323F" : "#FF577F")};
+  background-color: ${(props) => (props.isStatus ? "#59323F" : "#FF577F")};
 
-  cursor: ${(props) => (props.status ? "no-drop" : "pointer")};
+  cursor: ${(props) => (props.isStatus ? "no-drop" : "pointer")};
   color: #ffffff;
   font-weight: 500;
   font-size: 0.799rem;
@@ -39,8 +42,8 @@ export const EditButton = styled.button`
 
   &:hover {
     transition: 0.5s;
-    border: 1px solid ${(props) => (props.status ? "#59323F" : "#FF427F")};
-    background-color: ${(props) => (props.status ? "#59323F" : "#FF427F")};
+    border: 1px solid ${(props) => (props.isStatus ? "#59323F" : "#FF427F")};
+    background-color: ${(props) => (props.isStatus ? "#59323F" : "#FF427F")};
   }
   @media (min-width: 435px) {
     & {
