@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useProvider } from "../../contexts/UserContext";
+import { NavigateFunction, useProvider } from "../../contexts/UserContext";
 import { formSchema } from "../../validation/editTechs";
 import { HandleOption } from "../HandleOption";
 import { api } from "../../servers/Api";
@@ -10,26 +10,27 @@ import { AsideS } from "../../styles/ModalStyle";
 import { InputStyle } from "../../styles/InputStyle";
 import { SelectStyle } from "../../styles/SelectStyle";
 import { EditButton, ExitButton } from "./style";
+import { iTech } from "../ListTechnology";
 
 export const ModalEditTechnology = () => {
   const {
-    isInAnimation,
-    handleAnimation,
+    rendModal,
     user,
     isToken,
     ToastSuccess,
     ToastError,
     navigate,
-    setRend,
-    rend,
+    setRendModal,
   } = useProvider();
-  const modalRef = UseOutCLick(() => handleAnimation());
+  const modalRef = UseOutCLick(() => navigate("/dashbord", { replace: true }));
   const { techs } = user;
 
-  const { name } = useParams();
-  const title = name.replaceAll("+", "/");
+  const { name } = useParams<string>();
+  const title = name?.replaceAll("+", "/");
 
-  const filterTech = techs.filter((tech) => tech.title === title);
+  const filterTech: iTech[] = techs.filter(
+    (tech: iTech): boolean => tech.title === title
+  );
 
   const { register, handleSubmit, watch } = useForm({
     resolver: yupResolver(formSchema),
@@ -37,7 +38,8 @@ export const ModalEditTechnology = () => {
 
   const status = watch("status");
 
-  const onSubmitFunctionEditTech = async (data) => {
+  const onSubmitFunctionEditTech = handleSubmit(async (data) => {
+    setRendModal(false);
     try {
       await api.put(`/users/techs/${filterTech[0].id}`, data, {
         headers: {
@@ -45,14 +47,12 @@ export const ModalEditTechnology = () => {
           Authorization: `Bearer ${JSON.parse(isToken)}`,
         },
       });
-      setRend(false);
       navigate("/dashbord", { replace: true });
-      if (rend) {
-        ToastSuccess.fire({
-          icon: "success",
-          title: `Alteração feita com sucesso!`,
-        });
-      }
+
+      ToastSuccess.fire({
+        icon: "success",
+        title: `Alteração feita com sucesso!`,
+      });
     } catch (error) {
       ToastError.fire({
         icon: "error",
@@ -63,9 +63,12 @@ export const ModalEditTechnology = () => {
       localStorage.removeItem("@KenzieHub:uuid");
       navigate("/", { replace: true });
     }
-  };
+  });
 
-  const onSubmitFunctionDeleteTech = async (e) => {
+  const onSubmitFunctionDeleteTech = async (
+    e: React.SyntheticEvent<EventListener>
+  ) => {
+    setRendModal(false);
     e.preventDefault();
     try {
       await api.delete(`/users/techs/${filterTech[0].id}`, {
@@ -74,14 +77,13 @@ export const ModalEditTechnology = () => {
           Authorization: `Bearer ${JSON.parse(isToken)}`,
         },
       });
-      setRend(false);
+
       navigate("/dashbord", { replace: true });
-      if (rend) {
-        ToastSuccess.fire({
-          icon: "success",
-          title: `Deletado com sucesso!`,
-        });
-      }
+
+      ToastSuccess.fire({
+        icon: "success",
+        title: `Deletado com sucesso!`,
+      });
     } catch (error) {
       ToastError.fire({
         icon: "error",
@@ -96,12 +98,18 @@ export const ModalEditTechnology = () => {
 
   return (
     <AsideS>
-      <div ref={modalRef} className={isInAnimation}>
+      <div ref={modalRef} className="animate__animated animate__jackInTheBox">
         <div>
           <h3>Tecnologia Detalhes</h3>
-          <Link onClick={handleAnimation}>X</Link>
+          <button
+            className="exit__button"
+            onClick={() => navigate("/dashbord", { replace: true })}
+            type="button"
+          >
+            X
+          </button>
         </div>
-        <form onSubmit={handleSubmit(onSubmitFunctionEditTech)}>
+        <form onSubmit={onSubmitFunctionEditTech}>
           <InputStyle>
             <label htmlFor="name">Nome do projeto</label>
             <input
@@ -121,12 +129,16 @@ export const ModalEditTechnology = () => {
             <EditButton
               className={!status ? "" : "animate__animated  animate__pulse"}
               status={!status}
-              disabled={!status}
+              disabled={!status || !rendModal}
               type="submit"
             >
               Salvar alterações
             </EditButton>
-            <ExitButton onClick={onSubmitFunctionDeleteTech} type="button">
+            <ExitButton
+              disabled={!rendModal}
+              onClick={onSubmitFunctionDeleteTech}
+              type="button"
+            >
               Excluir
             </ExitButton>
           </div>

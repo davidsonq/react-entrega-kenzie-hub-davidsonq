@@ -31,8 +31,10 @@ export const AsideS = styled.aside`
         font-weight: 700;
         font-size: 0.802rem;
       }
-      a {
-        text-decoration: none;
+      .exit__button {
+        background-color: transparent;
+        cursor: pointer;
+        border: none;
         color: var(--color-grey-1);
         font-weight: 600;
         font-size: 0.802rem;

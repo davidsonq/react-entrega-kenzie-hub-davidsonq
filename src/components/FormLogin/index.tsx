@@ -7,9 +7,12 @@ import { ButtonEye } from "../ButtonEye";
 import { ButtonS } from "./style";
 import { useProvider } from "../../contexts/UserContext";
 import { InputStyle } from "../../styles/InputStyle";
-
-export const FormLogin = ({ onSubmitFunctionLogin }) => {
-  const { useEye } = useProvider();
+import { LoadingDashbord } from "../LoadingDashbord";
+interface iFormLogin {
+  onSubmitFunctionLogin: (data: {}) => void;
+}
+export const FormLogin = ({ onSubmitFunctionLogin }: iFormLogin) => {
+  const { useEye, rendModal } = useProvider();
 
   const {
     register,
@@ -34,12 +37,14 @@ export const FormLogin = ({ onSubmitFunctionLogin }) => {
         />
       </InputStyle>
       <span>
-        {errors.email?.message && (
-          <strong>
-            <FiAlertCircle />
-          </strong>
-        )}
-        {errors.email?.message}
+        <>
+          {errors.email?.message && (
+            <strong>
+              <FiAlertCircle />
+            </strong>
+          )}
+        </>
+        <>{errors.email?.message}</>
       </span>
       <InputStyle>
         <label htmlFor="senha">Senha</label>
@@ -54,14 +59,18 @@ export const FormLogin = ({ onSubmitFunctionLogin }) => {
         <ButtonEye />
       </InputStyle>
       <span>
-        {errors.password?.message && (
-          <strong>
-            <FiAlertCircle />
-          </strong>
-        )}
-        {errors.password?.message}
+        <>
+          {errors.password?.message && (
+            <strong>
+              <FiAlertCircle />
+            </strong>
+          )}
+        </>
+        <>{errors.password?.message}</>
       </span>
-      <ButtonS type="submit">Entrar</ButtonS>
+      <ButtonS rendModal={!rendModal} disabled={!rendModal} type="submit">
+        {!rendModal ? <LoadingDashbord /> : "Entrar"}
+      </ButtonS>
       <NavigateRegister />
     </form>
   );

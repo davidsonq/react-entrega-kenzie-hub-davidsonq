@@ -4,6 +4,7 @@ import { useProvider } from "../../contexts/UserContext";
 import { Section, SectionConstructor } from "./style";
 import { Outlet } from "react-router-dom";
 import { ListTechnology } from "../../components/ListTechnology";
+import { LoadingBig } from "../../components/LoadingBig";
 export const DashBord = () => {
   const { user } = useProvider();
 
@@ -24,6 +25,7 @@ export const DashBord = () => {
           </SectionConstructor>
         </main>
       </div>
+      <LoadingBig />
       <Outlet />
     </>
   );

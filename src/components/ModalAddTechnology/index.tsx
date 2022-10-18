@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { FiAlertCircle } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import { useProvider } from "../../contexts/UserContext";
 import { api } from "../../servers/Api";
 import { formSchema } from "../../validation/registerTechnology";
@@ -10,34 +9,37 @@ import { InputStyle } from "../../styles/InputStyle";
 import { SelectStyle } from "../../styles/SelectStyle";
 import { ButtonS } from "../FormLogin/style";
 import { UseOutCLick } from "../../hooks/UseOutClick";
+import { LoadingDashbord } from "../LoadingDashbord";
+interface iType {
+  title: string;
+  status: string;
+}
 
 export const ModalAddTechnology = () => {
   const {
-    rend,
+    rendModal,
     isToken,
-    isInAnimation,
-    handleAnimation,
-    setRend,
+    setRendModal,
     navigate,
     ToastSuccess,
     ToastError,
   } = useProvider();
 
-  const modalRef = UseOutCLick(() => handleAnimation());
+  const modalRef = UseOutCLick(() => navigate("/dashbord", { replace: true }));
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<iType>({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmitFunctionAddTech = async (data) => {
+  const onSubmitFunctionAddTech = handleSubmit(async (data) => {
     const dataTrim = data.title.trim();
 
     const dataNewFormat = { ...data, title: dataTrim };
-
+    setRendModal(false);
     try {
       await api.post("/users/techs", dataNewFormat, {
         headers: {
@@ -45,9 +47,9 @@ export const ModalAddTechnology = () => {
           Authorization: `Bearer ${JSON.parse(isToken)}`,
         },
       });
+
       navigate("/dashbord", { replace: true });
-      setRend(false);
-      if (rend) {
+      if (rendModal) {
         ToastSuccess.fire({
           icon: "success",
           title: `Tecnologia cadastrada com sucesso!`,
@@ -60,16 +62,22 @@ export const ModalAddTechnology = () => {
         title: `Tecnologia já cadastrada!`,
       });
     }
-  };
+  });
 
   return (
     <AsideS>
-      <div ref={modalRef} className={isInAnimation}>
+      <div ref={modalRef} className="animate__animated animate__jackInTheBox">
         <div>
           <h3>Cadastrar Tecnologia</h3>
-          <Link onClick={handleAnimation}>X</Link>
+          <button
+            className="exit__button"
+            onClick={() => navigate("/dashbord", { replace: true })}
+            type="button"
+          >
+            X
+          </button>
         </div>
-        <form onSubmit={handleSubmit(onSubmitFunctionAddTech)}>
+        <form onSubmit={onSubmitFunctionAddTech}>
           <InputStyle>
             <label htmlFor="name">Nome</label>
             <input
@@ -94,7 +102,9 @@ export const ModalAddTechnology = () => {
               <option value="Avançado">Avançado</option>
             </select>
           </SelectStyle>
-          <ButtonS type="submit">Cadastrar Tecnologia</ButtonS>
+          <ButtonS rendModal={!rendModal} disabled={!rendModal} type="submit">
+            {!rendModal ? <LoadingDashbord /> : "Cadastrar Tecnologia"}
+          </ButtonS>
         </form>
       </div>
     </AsideS>
