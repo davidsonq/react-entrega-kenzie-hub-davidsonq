@@ -1,7 +1,7 @@
 import { api } from "../../servers/Api";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { useProvider } from "../../contexts/UserContext";
+import { iTechs, useProvider } from "../../contexts/UserContext";
 
 export const ProtectRoutes = () => {
   const { navigate, setUser, isToken, rend, setRend, setRendModal, rendModal } =
@@ -10,15 +10,17 @@ export const ProtectRoutes = () => {
   useEffect(() => {
     const requestProfile = async () => {
       try {
-        const response = await api.get("/profile", {
+        const { data } = await api.get<iTechs>("/profile", {
           headers: {
             "Context-Type": "Application/json",
             Authorization: `Bearer ${JSON.parse(isToken)}`,
           },
         });
+        console.log(data);
+
         setRend(true);
         setRendModal(true);
-        setUser({ ...response.data });
+        setUser({ ...data });
       } catch (error) {
         navigate("/");
       }

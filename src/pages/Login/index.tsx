@@ -3,7 +3,12 @@ import { useProvider } from "../../contexts/UserContext";
 import { Navigate } from "react-router-dom";
 import { api } from "../../servers/Api";
 import { FormLogin } from "../../components/FormLogin";
-
+interface iLogin {
+  user: {
+    id: string;
+  };
+  token: string;
+}
 export const Login = () => {
   const { setRendModal, ToastError, isToken, setRend, navigate } =
     useProvider();
@@ -11,7 +16,7 @@ export const Login = () => {
   const onSubmitFunctionLogin = async (data: {}) => {
     setRendModal(false);
     try {
-      const response = await api.post("/sessions", data);
+      const response = await api.post<iLogin>("/sessions", data);
 
       const { token, user: userResponse } = response.data;
       localStorage.setItem("@KenzieHub:token", JSON.stringify(token));

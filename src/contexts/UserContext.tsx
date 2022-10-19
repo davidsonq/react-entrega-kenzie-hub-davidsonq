@@ -17,7 +17,7 @@ export interface NavigateFunction {
   ): void;
   (delta: number): void;
 }
-interface iTechs {
+export interface iTechs {
   id: string;
   name: string;
   email: string;
