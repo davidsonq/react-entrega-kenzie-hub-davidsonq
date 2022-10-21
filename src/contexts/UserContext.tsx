@@ -1,22 +1,13 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { RelativeRoutingType, To, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { api } from "../servers/Api";
 
 interface iUserContextProvider {
   children: React.ReactNode;
 }
-export interface NavigateFunction {
-  (
-    to: To,
-    options?: {
-      replace?: boolean;
-      state?: any;
-      relative?: RelativeRoutingType;
-    }
-  ): void;
-  (delta: number): void;
-}
+
 export interface iTechs {
   id: string;
   name: string;
@@ -36,14 +27,12 @@ interface iUserContext {
   setUseEye: React.Dispatch<React.SetStateAction<string>>;
   user: iTechs;
   setUser: React.Dispatch<React.SetStateAction<iTechs>>;
-  isToken: string;
   ToastSuccess: typeof Swal;
   ToastError: typeof Swal;
   rend: boolean;
   rendModal: boolean;
   setRend: React.Dispatch<React.SetStateAction<boolean>>;
   setRendModal: React.Dispatch<React.SetStateAction<boolean>>;
-  navigate: NavigateFunction;
 }
 const UserContext = createContext({} as iUserContext);
 
@@ -51,11 +40,10 @@ export const UserContextProvider = ({ children }: iUserContextProvider) => {
   const [user, setUser] = useState({} as iTechs);
   const [rend, setRend] = useState<boolean>(false);
   const [rendModal, setRendModal] = useState<boolean>(true);
-  const isToken: string = localStorage.getItem("@KenzieHub:token") || "";
 
   const [useEye, setUseEye] = useState<string>("password");
 
-  const navigate: NavigateFunction = useNavigate();
+  const navigate = useNavigate();
 
   const MySwal = withReactContent(Swal);
 
@@ -87,6 +75,27 @@ export const UserContextProvider = ({ children }: iUserContextProvider) => {
     },
   });
 
+  useEffect(() => {
+    const requestProfile = async () => {
+      const isToken: string | null = localStorage.getItem("@KenzieHub:token");
+      if (isToken) {
+        try {
+          api.defaults.headers.common.authorization = `Bearer ${JSON.parse(
+            isToken
+          )}`;
+
+          const { data } = await api.get<iTechs>("/profile");
+          navigate(`dashbord`, { replace: true });
+          setUser({ ...data });
+          setRendModal(true);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    requestProfile();
+  }, [rendModal]);
+
   return (
     <UserContext.Provider
       value={{
@@ -94,10 +103,8 @@ export const UserContextProvider = ({ children }: iUserContextProvider) => {
         setUseEye,
         user,
         setUser,
-        isToken,
         ToastSuccess,
         ToastError,
-        navigate,
         rend,
         setRend,
         rendModal,

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useProvider } from "../../contexts/UserContext";
 import { formSchema } from "../../validation/editTechs";
@@ -11,17 +11,12 @@ import { InputStyle } from "../../styles/InputStyle";
 import { SelectStyle } from "../../styles/SelectStyle";
 import { EditButton, ExitButton } from "./style";
 import { iTech } from "../ListTechnology";
+import { Link } from "react-router-dom";
 
 export const ModalEditTechnology = () => {
-  const {
-    rendModal,
-    user,
-    isToken,
-    ToastSuccess,
-    ToastError,
-    navigate,
-    setRendModal,
-  } = useProvider();
+  const { rendModal, user, ToastSuccess, ToastError, setRendModal } =
+    useProvider();
+  const navigate = useNavigate();
   const modalRef = UseOutCLick(() => navigate("/dashbord", { replace: true }));
   const { techs } = user;
 
@@ -41,12 +36,7 @@ export const ModalEditTechnology = () => {
   const onSubmitFunctionEditTech = handleSubmit(async (data) => {
     setRendModal(false);
     try {
-      await api.put(`/users/techs/${filterTech[0].id}`, data, {
-        headers: {
-          "Context-Type": "Application/json",
-          Authorization: `Bearer ${JSON.parse(isToken)}`,
-        },
-      });
+      await api.put(`/users/techs/${filterTech[0].id}`, data);
       navigate("/dashbord", { replace: true });
 
       ToastSuccess.fire({
@@ -68,12 +58,7 @@ export const ModalEditTechnology = () => {
   const onSubmitFunctionDeleteTech = async () => {
     setRendModal(false);
     try {
-      await api.delete(`/users/techs/${filterTech[0].id}`, {
-        headers: {
-          "Context-Type": "Application/json",
-          Authorization: `Bearer ${JSON.parse(isToken)}`,
-        },
-      });
+      await api.delete(`/users/techs/${filterTech[0].id}`);
 
       navigate("/dashbord", { replace: true });
 
@@ -98,13 +83,9 @@ export const ModalEditTechnology = () => {
       <div ref={modalRef} className="animate__animated animate__jackInTheBox">
         <div>
           <h3>Tecnologia Detalhes</h3>
-          <button
-            className="exit__button"
-            onClick={() => navigate("/dashbord", { replace: true })}
-            type="button"
-          >
+          <Link to={"/dashbord"} replace>
             X
-          </button>
+          </Link>
         </div>
         <form onSubmit={onSubmitFunctionEditTech}>
           <InputStyle>

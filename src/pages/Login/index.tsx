@@ -1,20 +1,19 @@
 import { Main } from "./style";
-import { useProvider } from "../../contexts/UserContext";
-import { Navigate } from "react-router-dom";
+import { iTechs, useProvider } from "../../contexts/UserContext";
 import { api } from "../../servers/Api";
 import { FormLogin } from "../../components/FormLogin";
+import { useNavigate } from "react-router-dom";
 interface iLogin {
-  user: {
-    id: string;
-  };
+  user: iTechs;
   token: string;
 }
 export const Login = () => {
-  const { setRendModal, ToastError, isToken, setRend, navigate } =
-    useProvider();
+  const { setUser, setRendModal, ToastError } = useProvider();
+  const navigate = useNavigate();
 
   const onSubmitFunctionLogin = async (data: {}) => {
     setRendModal(false);
+
     try {
       const response = await api.post<iLogin>("/sessions", data);
 
@@ -22,10 +21,8 @@ export const Login = () => {
       localStorage.setItem("@KenzieHub:token", JSON.stringify(token));
 
       localStorage.setItem("@KenzieHub:uuid", JSON.stringify(userResponse.id));
-
-      api.defaults.headers.authorization = `Bearer ${token}`;
-
-      setRend(false);
+      setUser(userResponse);
+      setRendModal(true);
       navigate(`dashbord`, { replace: true });
     } catch (error) {
       setRendModal(true);
@@ -36,10 +33,6 @@ export const Login = () => {
       });
     }
   };
-
-  if (!!isToken) {
-    return <Navigate to={"dashbord"} />;
-  }
 
   return (
     <>

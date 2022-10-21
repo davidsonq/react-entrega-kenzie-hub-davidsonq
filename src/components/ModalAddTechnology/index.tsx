@@ -10,21 +10,16 @@ import { SelectStyle } from "../../styles/SelectStyle";
 import { ButtonS } from "../FormLogin/style";
 import { UseOutCLick } from "../../hooks/UseOutClick";
 import { LoadingDashbord } from "../LoadingDashbord";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 interface iType {
   title: string;
   status: string;
 }
 
 export const ModalAddTechnology = () => {
-  const {
-    rendModal,
-    isToken,
-    setRendModal,
-    navigate,
-    ToastSuccess,
-    ToastError,
-  } = useProvider();
-
+  const { rendModal, setRendModal, ToastSuccess, ToastError } = useProvider();
+  const navigate = useNavigate();
   const modalRef = UseOutCLick(() => navigate("/dashbord", { replace: true }));
 
   const {
@@ -41,12 +36,7 @@ export const ModalAddTechnology = () => {
     const dataNewFormat = { ...data, title: dataTrim };
     setRendModal(false);
     try {
-      await api.post("/users/techs", dataNewFormat, {
-        headers: {
-          "Context-Type": "Application/json",
-          Authorization: `Bearer ${JSON.parse(isToken)}`,
-        },
-      });
+      await api.post("/users/techs", dataNewFormat, {});
 
       navigate("/dashbord", { replace: true });
       if (rendModal) {
@@ -69,13 +59,9 @@ export const ModalAddTechnology = () => {
       <div ref={modalRef} className="animate__animated animate__jackInTheBox">
         <div>
           <h3>Cadastrar Tecnologia</h3>
-          <button
-            className="exit__button"
-            onClick={() => navigate("/dashbord", { replace: true })}
-            type="button"
-          >
+          <Link to={"/dashbord"} replace>
             X
-          </button>
+          </Link>
         </div>
         <form onSubmit={onSubmitFunctionAddTech}>
           <InputStyle>

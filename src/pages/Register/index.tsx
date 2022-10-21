@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Main } from "./style";
 import { useProvider } from "../../contexts/UserContext";
 import { api } from "../../servers/Api";
 import { FormRegister } from "../../components/FormRegister";
 
 export const Register = () => {
-  const { ToastSuccess, navigate, ToastError } = useProvider();
-
+  const { ToastSuccess, ToastError } = useProvider();
+  const navigate = useNavigate();
   const onSubmitFunctionRegister = async (data: {}) => {
     try {
       await api.post("/users", data);
